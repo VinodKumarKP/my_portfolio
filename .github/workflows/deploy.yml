@@ -18,10 +18,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Install, build, and upload your site
         uses: withastro/action@v3
-        with:
-          # If your package manager is npm, you do not need to specify the package-manager input.
-          # Uncomment if you use pnpm or yarn:
-          # package-manager: pnpm
+
 
   deploy:
     needs: build
