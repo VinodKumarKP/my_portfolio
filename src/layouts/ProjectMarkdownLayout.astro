@@ -1,0 +1,466 @@
+---
+import ProjectLayout from './ProjectLayout.astro';
+
+export interface Props {
+  frontmatter: {
+    title: string;
+    year: number;
+    phase: string;
+    description: string;
+  };
+}
+
+const { frontmatter } = Astro.props;
+const { title, year, phase, description } = frontmatter;
+---
+
+<ProjectLayout
+  title={title}
+  year={year}
+  phase={phase}
+  description={description}
+>
+  <style is:global>
+    :global(.markdown-content) {
+      --color-impact: var(--color-accent);
+    }
+
+    .impact-summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+      padding: 2.5rem;
+      background: linear-gradient(135deg, rgba(0, 102, 204, 0.1) 0%, rgba(138, 43, 226, 0.1) 100%);
+      border-radius: 16px;
+      border-left: 6px solid var(--color-accent);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      backdrop-filter: blur(10px);
+    }
+
+    .impact-card { 
+      text-align: center; 
+      padding: 1.5rem;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .impact-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 102, 204, 0.15);
+    }
+    @media (prefers-color-scheme: dark) {
+      .impact-card {
+        background: rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+    }
+
+    .impact-metric { font-size: 2.5rem; font-weight: 800; color: var(--color-accent); margin-bottom: 0.5rem; line-height: 1; }
+    .impact-label { font-size: 0.9rem; color: var(--color-text-light); line-height: 1.4; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    .challenges-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .challenge-card { 
+      padding: 2rem; 
+      border-radius: 16px; 
+      background: linear-gradient(to bottom right, var(--color-bg-light), var(--color-bg)); 
+      border: 1px solid var(--color-border); 
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .challenge-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, var(--color-accent), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .challenge-card:hover { 
+      border-color: var(--color-accent); 
+      box-shadow: 0 15px 35px rgba(0, 102, 204, 0.1); 
+      transform: translateY(-4px); 
+    }
+    .challenge-card:hover::before { opacity: 1; }
+    
+    .challenge-number { 
+      display: inline-flex; 
+      align-items: center;
+      justify-content: center;
+      width: 40px; 
+      height: 40px; 
+      background: linear-gradient(135deg, var(--color-accent), var(--color-accent-dark)); 
+      color: white; 
+      border-radius: 50%; 
+      font-weight: 700; 
+      font-size: 1.2rem; 
+      margin-bottom: 1rem; 
+      box-shadow: 0 4px 10px rgba(0, 102, 204, 0.3);
+    }
+
+    .challenge-issue { 
+      padding: 1.25rem; 
+      background-color: rgba(220, 53, 69, 0.05); 
+      border-left: 4px solid #dc3545; 
+      border-radius: 8px; 
+      margin-bottom: 1.25rem; 
+    }
+    .challenge-issue strong { display: block; margin-bottom: 0.5rem; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: #dc3545; }
+    .challenge-issue p { margin: 0; font-size: 1rem; line-height: 1.6; }
+
+    .challenge-solution { 
+      padding: 1.25rem; 
+      background-color: rgba(40, 167, 69, 0.05); 
+      border-left: 4px solid #28a745; 
+      border-radius: 8px; 
+    }
+    .challenge-solution strong { display: block; margin-bottom: 0.5rem; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: #28a745; }
+    .challenge-solution p { margin: 0; font-size: 1rem; line-height: 1.6; }
+
+    .tech-tags { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 2rem 0; }
+    .tech-tag { 
+      padding: 0.5rem 1.2rem; 
+      background: linear-gradient(135deg, rgba(0, 102, 204, 0.1) 0%, rgba(0, 102, 204, 0.02) 100%); 
+      border: 1px solid rgba(0, 102, 204, 0.2); 
+      border-radius: 20px; 
+      font-size: 0.85rem; 
+      font-weight: 600; 
+      color: var(--color-accent); 
+      transition: all 0.2s ease;
+    }
+    .tech-tag:hover {
+      background: var(--color-accent);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0, 102, 204, 0.2);
+    }
+
+    .table-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin: 2rem 0; }
+    .table-card { background: var(--color-bg-light); border: 1px solid var(--color-border); border-radius: 12px; padding: 1.5rem; transition: all 0.3s ease; display: flex; flex-direction: column; }
+    .table-card:hover { transform: translateY(-5px); border-color: var(--color-accent); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05); }
+    .table-card-title { font-size: 1.1rem; font-weight: 700; color: var(--color-accent); margin-bottom: 0.75rem; border-bottom: 1px solid var(--color-border); padding-bottom: 0.75rem; }
+    .table-card-desc { font-size: 1rem; line-height: 1.6; color: var(--color-text); flex-grow: 1; }
+    .table-card-desc p { margin: 0; font-size: 1rem; }
+
+    .list-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin: 1.5rem 0 2.5rem 0; }
+    .list-card { background: linear-gradient(145deg, var(--color-bg-light), var(--color-bg)); border: 1px solid var(--color-border); border-radius: 12px; padding: 1.5rem; transition: all 0.3s ease; display: flex; flex-direction: column; position: relative; overflow: hidden; }
+    .list-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, var(--color-accent), transparent); opacity: 0.7; }
+    .list-card:hover { transform: translateY(-4px); border-color: var(--color-accent); box-shadow: 0 10px 20px rgba(0, 102, 204, 0.08); }
+    .list-card-title { font-size: 1.15rem; font-weight: 700; color: var(--color-text); margin-bottom: 0.75rem; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 0.5rem; }
+    .list-card-desc { font-size: 1rem; line-height: 1.6; color: var(--color-text-light); flex-grow: 1; }
+
+    .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin: 2rem 0; }
+    .metric-card { 
+      padding: 1.75rem 1.25rem; 
+      background: var(--color-bg-light); 
+      border: 1px solid var(--color-border); 
+      border-radius: 16px; 
+      text-align: center; 
+      transition: all 0.3s ease;
+    }
+    .metric-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--color-accent);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    }
+    .metric-number { font-size: 2.2rem; font-weight: 800; background: linear-gradient(135deg, var(--color-accent), #8a2be2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.5rem; }
+    .metric-label { font-size: 0.9rem; color: var(--color-text-light); line-height: 1.4; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    .mermaid { display: flex; justify-content: center; margin: 2.5rem 0; background-color: var(--color-bg-light); border-radius: 12px; padding: 2rem; border: 1px solid var(--color-border); }
+    .mermaid svg { max-width: 100%; height: auto; }
+
+    /* Markdown structure styling */
+    :global(.markdown-content h2) { margin: 2.5rem 0 1.5rem 0; padding-bottom: 0.5rem; border-bottom: 2px solid var(--color-border); font-size: 2rem; color: var(--color-accent); font-weight: 800; letter-spacing: -0.5px; }
+    :global(.markdown-content h3) { margin: 2rem 0 1rem 0; font-size: 1.3rem; font-weight: 700; color: var(--color-text); }
+    :global(.markdown-content p) { margin-bottom: 1.25rem; line-height: 1.8; font-size: 1.05rem; }
+    :global(.markdown-content ul) { margin-left: 1.5rem; margin-bottom: 1.5rem; padding: 0; }
+    :global(.markdown-content li) { margin-bottom: 0.75rem; line-height: 1.7; font-size: 1.05rem; }
+
+    /* Default issue styling */
+    :global(.markdown-content p:has(> strong)) { padding: 1.25rem; border-radius: 8px; margin-bottom: 1.5rem; background-color: rgba(220, 53, 69, 0.05); border-left: 4px solid #dc3545; }
+    :global(.markdown-content p:has(> strong)) strong:first-child { display: block; margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; color: #dc3545; }
+
+    @media (max-width: 768px) {
+      .metrics-grid, .impact-summary { grid-template-columns: 1fr; }
+    }
+  </style>
+
+  <div class="markdown-content">
+    <slot />
+  </div>
+
+  <script is:inline>
+    // Load Mermaid library
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js';
+    script.async = true;
+    document.head.appendChild(script);
+  </script>
+
+  <script>
+    function parseLines(html) {
+      return html.split(/<br\s*\/?>|\n/i).map(l => l.replace(/<[^>]+>/g, '').trim()).filter(l => l.length > 0);
+    }
+
+    function initializeMarkdownStyling() {
+      const content = document.querySelector('.markdown-content');
+      if (!content) return;
+
+      // 1. Process Challenge h3 headers → challenge-card divs with numbered badges
+      const allH3s = Array.from(content.querySelectorAll('h3'));
+      let challengeIndex = 0;
+      let challengesGrid = null;
+
+      for (let i = 0; i < allH3s.length; i++) {
+        const h3 = allH3s[i];
+        if (!h3.textContent.match(/Challenge \d+:/i)) {
+          challengesGrid = null;
+          continue;
+        }
+
+        if (!challengesGrid) {
+          challengesGrid = document.createElement('div');
+          challengesGrid.className = 'challenges-grid';
+          h3.before(challengesGrid);
+        }
+
+        challengeIndex++;
+        const card = document.createElement('div');
+        card.className = 'challenge-card';
+
+        // Add numbered badge
+        const badge = document.createElement('div');
+        badge.className = 'challenge-number';
+        badge.textContent = challengeIndex;
+        card.appendChild(badge);
+
+        // Add title without "Challenge N:" prefix
+        const title = document.createElement('h3');
+        title.style.marginTop = '0';
+        title.textContent = h3.textContent.replace(/Challenge \d+:\s*/i, '');
+        card.appendChild(title);
+
+        // Collect paragraphs until next h3 or h2
+        let sibling = h3.nextElementSibling;
+        while (sibling && sibling.tagName !== 'H3' && sibling.tagName !== 'H2') {
+          const next = sibling.nextElementSibling;
+
+          if (sibling.tagName === 'P') {
+            const text = sibling.textContent;
+            if (text.match(/^Issue:/i)) {
+              sibling.className = 'challenge-issue';
+            } else if (text.match(/^Solution:/i)) {
+              sibling.className = 'challenge-solution';
+              sibling.style.marginTop = 'auto'; // push solution to bottom if card is taller
+            }
+            card.appendChild(sibling);
+          } else {
+            card.appendChild(sibling);
+          }
+
+          sibling = next;
+        }
+
+        challengesGrid.appendChild(card);
+        h3.remove();
+      }
+
+      // 2. Process metrics grids
+      const allPs = Array.from(content.querySelectorAll('p'));
+      
+      allPs.forEach(p => {
+        const text = p.textContent.trim();
+        if (!text.includes('|') && !text.includes('→')) return;
+        
+        const lines = parseLines(p.innerHTML);
+        
+        let validMetrics = [];
+        let isImpact = false;
+        
+        // check if previous sibling is h2 Impact or Results
+        let prev = p.previousElementSibling;
+        if (prev && prev.tagName === 'H2' && prev.textContent.match(/Impact|Results/i)) {
+            if (prev.textContent.includes('Impact')) isImpact = true;
+        }
+
+        lines.forEach(line => {
+          const delimiter = line.includes('|') ? '|' : (line.includes('→') ? '→' : null);
+          if (delimiter) {
+            const parts = line.split(delimiter).map(t => t.trim());
+            if (parts.length === 2 && parts[0] && parts[1]) {
+              validMetrics.push(parts);
+            }
+          }
+        });
+
+        if (validMetrics.length > 0 && validMetrics.length === lines.length) {
+          const grid = document.createElement('div');
+          grid.className = isImpact ? 'impact-summary' : 'metrics-grid';
+          const cardClass = isImpact ? 'impact-card' : 'metric-card';
+          const numberClass = isImpact ? 'impact-metric' : 'metric-number';
+          const labelClass = isImpact ? 'impact-label' : 'metric-label';
+
+          validMetrics.forEach(parts => {
+            const card = document.createElement('div');
+            card.className = cardClass;
+            card.innerHTML = `
+              <div class="${numberClass}">${parts[0]}</div>
+              <div class="${labelClass}">${parts[1]}</div>
+            `;
+            grid.appendChild(card);
+          });
+
+          p.replaceWith(grid);
+        } else if (validMetrics.length > 0) {
+            // some lines are metrics, some are tags?
+            // Handle tags case where all parts are just words separated by |
+            const tags = text.split('|').map(t => t.trim()).filter(t => t);
+            if (tags.length > 1 && !tags.some(t => t.includes(' '))) {
+                const tagsDiv = document.createElement('div');
+                tagsDiv.className = 'tech-tags';
+                tags.forEach(tag => {
+                    const span = document.createElement('span');
+                    span.className = 'tech-tag';
+                    span.textContent = tag;
+                    tagsDiv.appendChild(span);
+                });
+                p.replaceWith(tagsDiv);
+            }
+        }
+      });
+
+      // 4. Process tables into card grids
+      const allTables = Array.from(content.querySelectorAll('table'));
+      allTables.forEach(table => {
+        const grid = document.createElement('div');
+        grid.className = 'table-grid';
+        
+        const rows = Array.from(table.querySelectorAll('tbody tr'));
+        rows.forEach(row => {
+          const cells = Array.from(row.querySelectorAll('td'));
+          if (cells.length >= 2) {
+             const card = document.createElement('div');
+             card.className = 'table-card';
+             
+             const title = document.createElement('div');
+             title.className = 'table-card-title';
+             title.innerHTML = cells[0].innerHTML;
+             
+             const desc = document.createElement('div');
+             desc.className = 'table-card-desc';
+             desc.innerHTML = cells[1].innerHTML;
+             
+             card.appendChild(title);
+             card.appendChild(desc);
+             grid.appendChild(card);
+          }
+        });
+        
+        if (grid.children.length > 0) {
+          table.replaceWith(grid);
+        }
+      });
+
+      // 5. Process structured lists into card grids
+      const allUls = Array.from(content.querySelectorAll('ul'));
+      allUls.forEach(ul => {
+        const lis = Array.from(ul.querySelectorAll('li'));
+        if (lis.length === 0) return;
+        
+        // Check if all lis start with a strong tag for the title
+        const isStructured = lis.every(li => {
+          const firstChild = li.firstElementChild;
+          return firstChild && firstChild.tagName === 'STRONG';
+        });
+
+        if (isStructured) {
+          const grid = document.createElement('div');
+          grid.className = 'list-grid';
+          
+          lis.forEach(li => {
+            const card = document.createElement('div');
+            card.className = 'list-card';
+            
+            const strong = li.firstElementChild;
+            const title = document.createElement('div');
+            title.className = 'list-card-title';
+            title.innerHTML = strong.innerHTML.replace(/:$/, '');
+            
+            const desc = document.createElement('div');
+            desc.className = 'list-card-desc';
+            
+            let next = strong.nextSibling;
+            while(next) {
+              const node = next.cloneNode(true);
+              if (node.nodeType === Node.TEXT_NODE) {
+                node.textContent = node.textContent.replace(/^[\s:-]+/, '');
+              }
+              desc.appendChild(node);
+              next = next.nextSibling;
+            }
+            
+            card.appendChild(title);
+            card.appendChild(desc);
+            grid.appendChild(card);
+          });
+          
+          ul.replaceWith(grid);
+        }
+      });
+    }
+
+    // Initialize Mermaid diagrams
+    async function initializeMermaid() {
+      let attempts = 0;
+      while (typeof mermaid === 'undefined' && attempts < 50) {
+        await new Promise(resolve => setTimeout(resolve, 100));
+        attempts++;
+      }
+      if (typeof mermaid === 'undefined') return;
+
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: 'dark',
+        securityLevel: 'loose'
+      });
+
+      const content = document.querySelector('.markdown-content');
+      if (!content) return;
+
+      const codeBlocks = content.querySelectorAll('pre[data-language="mermaid"]');
+      codeBlocks.forEach(codeBlock => {
+        const mermaidDiv = document.createElement('div');
+        mermaidDiv.className = 'mermaid';
+        mermaidDiv.textContent = codeBlock.textContent;
+        codeBlock.replaceWith(mermaidDiv);
+      });
+
+      try {
+        await mermaid.run();
+      } catch (error) {
+        console.error('Mermaid error:', error);
+      }
+    }
+
+    // Run initialization
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => {
+        initializeMarkdownStyling();
+        initializeMermaid();
+      });
+    } else {
+      initializeMarkdownStyling();
+      initializeMermaid();
+    }
+  </script>
+</ProjectLayout>

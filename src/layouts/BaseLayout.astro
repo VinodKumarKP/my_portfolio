@@ -1,0 +1,160 @@
+---
+export interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "Vinod Kumar - Data & AI Architect" } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --color-bg: #ffffff;
+        --color-text: #1a1a1a;
+        --color-text-light: #666;
+        --color-border: #e5e5e5;
+        --color-accent: #0066cc;
+        --color-accent-dark: #0052a3;
+        --color-success: #28a745;
+        --color-bg-light: #f8f9fa;
+        --space-xs: 0.5rem;
+        --space-sm: 1rem;
+        --space-md: 1.5rem;
+        --space-lg: 2rem;
+        --space-xl: 3rem;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --color-bg: #1a1a1a;
+          --color-text: #ffffff;
+          --color-text-light: #aaa;
+          --color-border: #333;
+          --color-bg-light: #2d2d2d;
+        }
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        background-color: var(--color-bg);
+        color: var(--color-text);
+        line-height: 1.6;
+      }
+
+      header {
+        border-bottom: 1px solid var(--color-border);
+        padding: var(--space-md) 0;
+        position: sticky;
+        top: 0;
+        background-color: var(--color-bg);
+        z-index: 100;
+      }
+
+      nav {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 var(--space-lg);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        font-weight: 700;
+        font-size: 1.25rem;
+        text-decoration: none;
+        color: var(--color-accent);
+      }
+
+      .nav-links {
+        display: flex;
+        gap: var(--space-lg);
+        list-style: none;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: var(--color-text);
+        font-size: 0.95rem;
+        transition: color 0.2s;
+      }
+
+      .nav-links a:hover {
+        color: var(--color-accent);
+      }
+
+      main {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: var(--space-lg);
+      }
+
+      footer {
+        border-top: 1px solid var(--color-border);
+        padding: var(--space-xl) var(--space-lg);
+        margin-top: var(--space-xl);
+        text-align: center;
+        color: var(--color-text-light);
+        font-size: 0.9rem;
+      }
+
+      a {
+        color: var(--color-accent);
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      button, .btn {
+        display: inline-block;
+        padding: var(--space-sm) var(--space-md);
+        background-color: var(--color-accent);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        text-decoration: none;
+      }
+
+      button:hover, .btn:hover {
+        background-color: var(--color-accent-dark);
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <a href="/" class="logo">VK</a>
+        <ul class="nav-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/projects">Projects</a></li>
+          <li><a href="/about">About</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer>
+      <p>&copy; 2026 Vinod Kumar. All rights reserved.</p>
+    </footer>
+  </body>
+</html>

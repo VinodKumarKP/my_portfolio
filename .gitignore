@@ -1,0 +1,33 @@
+# build output
+dist/
+# generated types
+.astro/
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# env
+.env
+.env.production
+.env.local
+.env.development
+
+# macos
+.DS_Store
+
+.claude/
+
+fix_script.patch
+# IDE
+.idea/
+
+# Temp files
+page.html
+test.js
+

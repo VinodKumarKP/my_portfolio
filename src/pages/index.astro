@@ -1,0 +1,257 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Vinod Kumar - Data & AI Architect">
+  <style>
+    .hero {
+      text-align: center;
+      margin: var(--space-xl) 0;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: var(--space-md);
+      line-height: 1.2;
+    }
+
+    .hero .subtitle {
+      font-size: 1.25rem;
+      color: var(--color-text-light);
+      margin-bottom: var(--space-lg);
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: var(--space-md);
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: var(--space-xl);
+    }
+
+    .cta-buttons a {
+      padding: var(--space-sm) var(--space-lg);
+      background-color: var(--color-accent);
+      color: white;
+      border-radius: 4px;
+      font-weight: 500;
+      transition: background-color 0.2s;
+    }
+
+    .cta-buttons a:hover {
+      background-color: var(--color-accent-dark);
+      text-decoration: none;
+    }
+
+    .timeline {
+      max-width: 800px;
+      margin: var(--space-xl) auto;
+    }
+
+    .timeline h2 {
+      text-align: center;
+      margin-bottom: var(--space-lg);
+      font-size: 1.75rem;
+    }
+
+    .timeline-container {
+      position: relative;
+      padding: var(--space-lg) 0;
+    }
+
+    .timeline-container::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 3px;
+      height: 100%;
+      background-color: var(--color-border);
+    }
+
+    .timeline-item {
+      margin-bottom: var(--space-lg);
+      position: relative;
+    }
+
+    .timeline-item:nth-child(odd) .content {
+      margin-left: 0;
+      margin-right: 52%;
+      text-align: right;
+    }
+
+    .timeline-item:nth-child(even) .content {
+      margin-left: 52%;
+      margin-right: 0;
+      text-align: left;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: 50%;
+      top: var(--space-md);
+      width: 16px;
+      height: 16px;
+      background-color: var(--color-accent);
+      border: 3px solid var(--color-bg);
+      border-radius: 50%;
+      transform: translateX(-50%);
+      z-index: 1;
+    }
+
+    .content {
+      padding: var(--space-md);
+      background-color: var(--color-bg-light);
+      border: 1px solid var(--color-border);
+      border-radius: 4px;
+    }
+
+    .year {
+      font-weight: 700;
+      color: var(--color-accent);
+      font-size: 1.1rem;
+      margin-bottom: var(--space-xs);
+    }
+
+    .phase-title {
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: var(--space-xs);
+    }
+
+    .phase-desc {
+      color: var(--color-text-light);
+      font-size: 0.9rem;
+    }
+
+    .metrics {
+      margin-top: var(--space-xl);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: var(--space-lg);
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .metric {
+      text-align: center;
+      padding: var(--space-md);
+      background-color: var(--color-bg-light);
+      border: 1px solid var(--color-border);
+      border-radius: 4px;
+    }
+
+    .metric-number {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--color-accent);
+    }
+
+    .metric-label {
+      color: var(--color-text-light);
+      font-size: 0.9rem;
+      margin-top: var(--space-xs);
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 1.75rem;
+      }
+
+      .hero .subtitle {
+        font-size: 1rem;
+      }
+
+      .timeline-container::before {
+        left: 16px;
+      }
+
+      .timeline-dot {
+        left: 16px;
+      }
+
+      .timeline-item:nth-child(odd) .content,
+      .timeline-item:nth-child(even) .content {
+        margin-left: 60px;
+        margin-right: 0;
+        text-align: left;
+      }
+
+      .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .cta-buttons a {
+        width: 100%;
+        max-width: 300px;
+      }
+    }
+  </style>
+
+  <div class="hero">
+    <h1>Architect & AI Engineer</h1>
+    <p class="subtitle">18+ years building data pipelines, cloud infrastructure, and AI systems at scale</p>
+    <div class="cta-buttons">
+      <a href="/projects">Explore Projects</a>
+      <a href="/about">Learn More</a>
+    </div>
+  </div>
+
+  <div class="timeline">
+    <h2>My Journey</h2>
+    <div class="timeline-container">
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="content">
+          <div class="year">2007-2015</div>
+          <div class="phase-title">Data Engineer</div>
+          <div class="phase-desc">ETL pipelines, data warehousing, database architecture at Nordstrom</div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="content">
+          <div class="year">2015-2017</div>
+          <div class="phase-title">Cloud & DevOps Engineer</div>
+          <div class="phase-desc">AWS infrastructure, Kubernetes, CI/CD pipelines at Nordstrom</div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="content">
+          <div class="year">2017-2022</div>
+          <div class="phase-title">DevOps / Platform Engineer</div>
+          <div class="phase-desc">Scalable platforms, event-driven architectures, infrastructure as code</div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="content">
+          <div class="year">2022-Present</div>
+          <div class="phase-title">AI/GenAI Engineer & Architect</div>
+          <div class="phase-desc">LLM agents, RAG systems, agentic platforms, AI Champion award</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="metrics">
+    <div class="metric">
+      <div class="metric-number">18+</div>
+      <div class="metric-label">Years of Software Engineering</div>
+    </div>
+    <div class="metric">
+      <div class="metric-number">10+</div>
+      <div class="metric-label">Industry Certifications</div>
+    </div>
+    <div class="metric">
+      <div class="metric-number">4</div>
+      <div class="metric-label">Awards & Recognitions</div>
+    </div>
+  </div>
+</BaseLayout>

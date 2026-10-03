@@ -1,0 +1,116 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="About">
+  <style>
+    .about-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .about-content h1 {
+      font-size: 2rem;
+      margin-bottom: var(--space-lg);
+    }
+
+    .about-content h2 {
+      font-size: 1.5rem;
+      margin-top: var(--space-xl);
+      margin-bottom: var(--space-md);
+      color: var(--color-accent);
+    }
+
+    .about-content p {
+      margin-bottom: var(--space-md);
+      line-height: 1.8;
+    }
+
+    .about-content ul {
+      margin-left: 2rem;
+      margin-bottom: var(--space-md);
+    }
+
+    .about-content li {
+      margin-bottom: var(--space-sm);
+    }
+
+    .links {
+      display: flex;
+      gap: var(--space-md);
+      margin-top: var(--space-lg);
+    }
+
+    .links a {
+      display: inline-block;
+      padding: var(--space-sm) var(--space-md);
+      background-color: var(--color-accent);
+      color: white;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background-color 0.2s;
+    }
+
+    .links a:hover {
+      background-color: var(--color-accent-dark);
+      text-decoration: none;
+    }
+  </style>
+
+  <div class="about-content">
+    <h1>About Me</h1>
+
+    <p>
+      I'm a Solutions Architect and AI Engineer with 18+ years of experience building data pipelines,
+      cloud infrastructure, and AI systems at scale. My journey started in data engineering and has evolved
+      through cloud architecture, DevOps, and now into leading AI/GenAI initiatives.
+    </p>
+
+    <p>
+      Throughout my career at Nordstrom and Synchrony Financial, I've architected and delivered:
+    </p>
+    <ul>
+      <li>Enterprise-scale cloud platforms on AWS (EKS, Lambda, RDS, S3)</li>
+      <li>Event-driven data pipelines and batch processing frameworks</li>
+      <li>Microservices and API-first architectures</li>
+      <li>LLM agent platforms and RAG systems</li>
+      <li>CI/CD pipelines and infrastructure-as-code solutions</li>
+    </ul>
+
+    <h2>What Drives Me</h2>
+    <p>
+      I'm passionate about solving complex architectural challenges and mentoring teams to deliver
+      systems that scale. I believe in building systems that are not just technically sound but also
+      maintainable, observable, and secure.
+    </p>
+
+    <p>
+      Recently, I've been deeply invested in the AI/GenAI space—building agent platforms, RAG systems,
+      and helping organizations adopt AI practices responsibly. I earned the "AI Champion" award for
+      driving AI adoption across application teams at Synchrony.
+    </p>
+
+    <h2>Certifications & Recognition</h2>
+    <ul>
+      <li>AWS Certified Solutions Architect & DevOps Engineer</li>
+      <li>Azure Certified Architect & DevOps Engineer</li>
+      <li>Certified Kubernetes Developer (CKA) & CKAD</li>
+      <li>Claude Certified Associate Architect</li>
+      <li>Docker Certified Associate</li>
+      <li>Apache Airflow & Databricks Certified</li>
+      <li>SAFe Scrum Master</li>
+    </ul>
+
+    <h2>Let's Connect</h2>
+    <p>
+      I'm open to roles in architecture, platform engineering, and AI/ML system design.
+      Interested in discussing your project or challenges?
+    </p>
+
+    <div class="links">
+      <a href="https://linkedin.com/in/vinod-kumar-k-p/" target="_blank">LinkedIn</a>
+      <a href="https://github.com/vinodkumarkp" target="_blank">GitHub</a>
+      <a href="mailto:vinodkumar.kp.1985@gmail.com">Email</a>
+    </div>
+  </div>
+</BaseLayout>

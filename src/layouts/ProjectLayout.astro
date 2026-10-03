@@ -1,0 +1,188 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+export interface Props {
+  title: string;
+  year: number;
+  phase: string;
+  description: string;
+}
+
+const { title, year, phase, description } = Astro.props;
+---
+
+<BaseLayout title={title}>
+  <style>
+    .project-header {
+      margin-bottom: var(--space-xl);
+      padding-bottom: var(--space-lg);
+      border-bottom: 2px solid var(--color-border);
+    }
+
+    .project-meta {
+      display: flex;
+      gap: var(--space-lg);
+      flex-wrap: wrap;
+      margin-top: var(--space-md);
+      font-size: 0.9rem;
+      color: var(--color-text-light);
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.25rem var(--space-sm);
+      background-color: var(--color-accent);
+      color: white;
+      border-radius: 3px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .project-content {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-xl);
+    }
+
+    .section {
+      margin-bottom: var(--space-xl);
+    }
+
+    .section h2 {
+      font-size: 1.5rem;
+      margin-bottom: var(--space-md);
+      color: var(--color-accent);
+    }
+
+    .section h3 {
+      font-size: 1.1rem;
+      margin: var(--space-md) 0 var(--space-sm) 0;
+      color: var(--color-text);
+    }
+
+    .section p {
+      line-height: 1.8;
+      margin-bottom: var(--space-md);
+    }
+
+    .section ul, .section ol {
+      margin-left: 2rem;
+      margin-bottom: var(--space-md);
+    }
+
+    .section li {
+      margin-bottom: var(--space-sm);
+      line-height: 1.8;
+    }
+
+    .diagram-container {
+      margin: var(--space-lg) 0;
+      padding: var(--space-lg);
+      background-color: var(--color-bg-light);
+      border: 1px solid var(--color-border);
+      border-radius: 4px;
+      text-align: center;
+    }
+
+    .code-block {
+      background-color: var(--color-bg-light);
+      border: 1px solid var(--color-border);
+      border-radius: 4px;
+      padding: var(--space-md);
+      overflow-x: auto;
+      margin: var(--space-md) 0;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--space-md);
+      margin: var(--space-lg) 0;
+    }
+
+    .metric-card {
+      padding: var(--space-md);
+      background-color: var(--color-bg-light);
+      border: 1px solid var(--color-border);
+      border-radius: 4px;
+      text-align: center;
+    }
+
+    .metric-card .number {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--color-accent);
+    }
+
+    .metric-card .label {
+      color: var(--color-text-light);
+      font-size: 0.9rem;
+      margin-top: var(--space-xs);
+    }
+
+    .tech-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      margin: var(--space-md) 0;
+    }
+
+    .tech-tag {
+      display: inline-block;
+      padding: 0.35rem var(--space-sm);
+      background-color: var(--color-bg-light);
+      border: 1px solid var(--color-border);
+      border-radius: 3px;
+      font-size: 0.85rem;
+      color: var(--color-accent);
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: var(--space-lg);
+      color: var(--color-accent);
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .project-header h1 {
+        font-size: 1.75rem;
+      }
+
+      .project-meta {
+        flex-direction: column;
+        gap: var(--space-sm);
+      }
+    }
+  </style>
+
+  <a href="/projects" class="back-link">← Back to Projects</a>
+
+  <div class="project-header">
+    <h1>{title}</h1>
+    <div class="project-meta">
+      <div class="meta-item">
+        <span class="badge">{year}</span>
+        <span>{phase}</span>
+      </div>
+      <div class="meta-item">
+        <span>{description}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="project-content">
+    <slot />
+  </div>
+</BaseLayout>
