@@ -2,7 +2,7 @@ import { defineConfig } from 'astro/config';
 
 export default defineConfig({
   site: 'https://vinodkumarkp.github.io',
-  base: '/portfolio',
+  base: '/my_portfolio',
   build: {
     outDir: './dist'
   },
