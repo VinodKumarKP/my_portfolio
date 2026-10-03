@@ -43,6 +43,52 @@ Built a Python DAG Generator that converts Control-M XML to JSON configs. Benefi
 - All configs stored in Git with full audit trail
 - Easy to review and validate migrations
 
+```json
+{
+    "name": "DataFlow",
+    "nodes": [
+        {
+            "name": "job1",
+            "_type": "ssh_sensor.SSHSensorAsync",
+            "parameters": {
+            }
+        },
+        {
+            "name": "job2",
+            "_type": "ssh_sensor.SSHSensorAsync",
+            "parameters": {
+            }
+        },
+        {
+             "name": "job3",
+             "_type": "ssh_sensor.SSHSensorAsync",
+             "parameters": {
+             }
+        },
+        {
+            "name": "job4",
+            "_type": "controlm_polling_sensor.ControlMPollingSensorAsync",
+            "parameters": {
+            }
+        }
+    ],
+    "connections": {
+        "job1": [
+            "job2", 
+            "job3"
+        ],
+        "job2": [
+            "job3"
+        ],
+        "job4": [
+            "job3"
+        ]
+    },
+    "schedule": "0 5 * * *"
+}
+
+```
+
 ### Migration Flow Architecture
 
 ```mermaid

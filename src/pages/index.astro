@@ -124,6 +124,25 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       font-size: 0.9rem;
     }
 
+    .timeline-project-link {
+      display: inline-block;
+      margin-top: var(--space-sm);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--color-accent);
+      text-decoration: none;
+      border: 1px solid var(--color-accent);
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .timeline-project-link:hover {
+      background-color: var(--color-accent);
+      color: white;
+      text-decoration: none;
+    }
+
     .metrics {
       margin-top: var(--space-xl);
       display: grid;
@@ -194,8 +213,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <h1>Architect & AI Engineer</h1>
     <p class="subtitle">18+ years building data pipelines, cloud infrastructure, and AI systems at scale</p>
     <div class="cta-buttons">
-      <a href="/projects">Explore Projects</a>
-      <a href="/about">Learn More</a>
+      <a href="/my_portfolio/projects">Explore Projects</a>
+      <a href="/my_portfolio/about">Learn More</a>
     </div>
   </div>
 
@@ -205,27 +224,40 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <div class="timeline-item">
         <div class="timeline-dot"></div>
         <div class="content">
-          <div class="year">2007-2015</div>
+          <div class="year">2007</div>
+          <div class="phase-title">ASP.NET Developer</div>
+          <div class="phase-desc">Started my first project building scalable UI architecture.</div>
+          <a href="/my_portfolio/projects/enterprise-tokenization-ui/" class="timeline-project-link">View Project: Enterprise Tokenization UI →</a>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="content">
+          <div class="year">2010</div>
           <div class="phase-title">Data Engineer</div>
-          <div class="phase-desc">ETL pipelines, data warehousing, database architecture at Nordstrom</div>
+          <div class="phase-desc">Architected generic, metadata-driven ETL pipelines.</div>
+          <a href="/my_portfolio/projects/generic-etl-process/" class="timeline-project-link">View Project: Generic ETL Framework →</a>
         </div>
       </div>
 
       <div class="timeline-item">
         <div class="timeline-dot"></div>
         <div class="content">
-          <div class="year">2015-2017</div>
-          <div class="phase-title">Cloud & DevOps Engineer</div>
-          <div class="phase-desc">AWS infrastructure, Kubernetes, CI/CD pipelines at Nordstrom</div>
+          <div class="year">2018</div>
+          <div class="phase-title">Cloud / Data Architect</div>
+          <div class="phase-desc">Architected fully event-driven, cost-optimized big data pipelines.</div>
+          <a href="/my_portfolio/projects/on-premise-to-cloud/" class="timeline-project-link">View Project: AWS Migration →</a>
         </div>
       </div>
 
       <div class="timeline-item">
         <div class="timeline-dot"></div>
         <div class="content">
-          <div class="year">2017-2022</div>
-          <div class="phase-title">DevOps / Platform Engineer</div>
-          <div class="phase-desc">Scalable platforms, event-driven architectures, infrastructure as code</div>
+          <div class="year">2019</div>
+          <div class="phase-title">DevOps / Data Engineer</div>
+          <div class="phase-desc">Large scale migrations and Kubernetes architectures.</div>
+          <a href="/my_portfolio/projects/control-m-to-airflow/" class="timeline-project-link">View Project: Control-M to Airflow →</a>
         </div>
       </div>
 
@@ -234,7 +266,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <div class="content">
           <div class="year">2022-Present</div>
           <div class="phase-title">AI/GenAI Engineer & Architect</div>
-          <div class="phase-desc">LLM agents, RAG systems, agentic platforms, AI Champion award</div>
+          <div class="phase-desc">LLM agents, RAG systems, agentic platforms, AI Champion award.</div>
         </div>
       </div>
     </div>
