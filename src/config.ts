@@ -65,6 +65,12 @@ export const POC_SIDEBAR = {
   title: "Categories",
   categories: [
     {
+      name: "Human-in-the-Loop AI",
+      projects: [
+        { title: "AI Auditor Feedback Loops", slug: "auditor-feedback-loop" }
+      ]
+    },
+    {
       name: "AIOps & Observability",
       projects: [
         { title: "Proactive Anomaly Detection", slug: "anomaly-detection" }
