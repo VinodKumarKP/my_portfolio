@@ -117,6 +117,84 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       border-color: rgba(0, 102, 204, 0.3);
     }
 
+    .projects-layout {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    .patterns-sidebar {
+      position: sticky;
+      top: 2rem;
+      padding: 2rem;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.3) 100%);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: 20px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+    }
+    
+    @media (prefers-color-scheme: dark) {
+      .patterns-sidebar {
+        background: linear-gradient(135deg, rgba(40, 40, 40, 0.8) 0%, rgba(20, 20, 20, 0.5) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+      }
+    }
+
+    .patterns-sidebar h3 {
+      font-size: 1.4rem;
+      margin-bottom: 1.5rem;
+      color: var(--color-accent);
+      border-bottom: 2px solid rgba(0, 102, 204, 0.1);
+      padding-bottom: 0.5rem;
+    }
+
+    .patterns-sidebar ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .patterns-sidebar li {
+      margin-bottom: 1.5rem;
+    }
+
+    .patterns-sidebar li strong {
+      display: block;
+      font-size: 1.05rem;
+      color: var(--color-text);
+      margin-bottom: 0.5rem;
+    }
+
+    .patterns-sidebar li a {
+      display: block;
+      font-size: 0.95rem;
+      color: var(--color-text-light);
+      text-decoration: none;
+      padding: 6px 0 6px 12px;
+      border-left: 2px solid transparent;
+      transition: all 0.2s ease;
+      margin-bottom: 0.25rem;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .patterns-sidebar li a:hover {
+      color: var(--color-accent);
+      border-left-color: var(--color-accent);
+      background: rgba(0, 102, 204, 0.05);
+    }
+
+    @media (max-width: 1024px) {
+      .projects-layout {
+        grid-template-columns: 1fr;
+      }
+      .patterns-sidebar {
+        position: static;
+        margin-bottom: 2rem;
+      }
+    }
+
     @media (max-width: 768px) {
       .projects-grid {
         grid-template-columns: 1fr;
@@ -129,7 +207,41 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     <p>Detailed project case studies showcasing architecture, challenges, and impact</p>
   </div>
 
-  <div class="projects-grid">
+  <div class="projects-layout">
+    <aside class="patterns-sidebar">
+      <h3>Architecture Patterns</h3>
+      <ul>
+        <li>
+          <strong>API-First / Microservices</strong>
+          <a href="/my_portfolio/projects/agent-development-kit/">Agent Development Kit (ADK)</a>
+        </li>
+        <li>
+          <strong>Event-Driven / CQRS</strong>
+          <a href="/my_portfolio/projects/jira-release-orchestration/">Release Orchestration</a>
+          <a href="/my_portfolio/projects/on-premise-to-cloud/">Event-Driven AWS Migration</a>
+        </li>
+        <li>
+          <strong>Strangler Fig</strong>
+          <a href="/my_portfolio/projects/control-m-to-airflow/">Control-M to Airflow Migration</a>
+        </li>
+        <li>
+          <strong>Infrastructure as Data</strong>
+          <a href="/my_portfolio/projects/jenkins-to-cloudbees/">Jenkins to CloudBees CI</a>
+          <a href="/my_portfolio/projects/generic-etl-process/">Metadata-Driven ETL Framework</a>
+        </li>
+        <li>
+          <strong>Domain-Driven Design (DDD)</strong>
+          <a href="/my_portfolio/projects/pipeline-factory/">Pipeline Factory</a>
+        </li>
+        <li>
+          <strong>Governance / Centralized Logging</strong>
+          <a href="/my_portfolio/projects/observability-secret-management/">Enterprise Observability</a>
+          <a href="/my_portfolio/projects/gated-ci-cd-pipelines/">Gated CI/CD Pipelines</a>
+        </li>
+      </ul>
+    </aside>
+
+    <div class="projects-grid">
     <a href="/my_portfolio/projects/agent-development-kit/" class="project-card">
       <div class="project-card-header">
         <div class="project-card-year">2026</div>
@@ -309,6 +421,6 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
         <span class="tag">UI/UX</span>
       </div>
     </a>
-
+    </div>
   </div>
 </BaseLayout>
