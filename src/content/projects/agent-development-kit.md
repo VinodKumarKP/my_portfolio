@@ -30,6 +30,11 @@ If a team added a new guardrail or an awesome new tool to their agent, it was tr
 
 ### Architecture
 
+- **BaseAgent Contract:** The core abstract interface standardizing how agents interact with tools, guardrails, and MCPs, regardless of the underlying framework.
+- **Agent HTTP Server:** A universal router exposing unified endpoints (`/chat`, `/stream`, `/a2a`, `/agui`), making front-end integrations fully agnostic.
+- **Centralized Registries:** Enterprise hubs (Agent, MCP, Skill, KB) allowing cross-team discovery and direct ADK deployment to multiple targets (Docker, K8s).
+- **Agent Evaluator:** A native testing framework that parses `scenario.yaml` to run LLM regression tests automatically inside CI/CD pipelines.
+
 ```mermaid
 graph TD
     subgraph Enterprise ADK
