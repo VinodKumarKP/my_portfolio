@@ -21,9 +21,9 @@ interface Props {
 
 const { entry } = Astro.props;
 const { Content } = await entry.render();
-const { title, year, phase, description } = entry.data;
+const { title, year, phase, description, sidebar } = entry.data;
 ---
 
-<ProjectMarkdownLayout frontmatter={{ title, year, phase, description }}>
+<ProjectMarkdownLayout frontmatter={{ title, year, phase, description, sidebar }}>
   <Content />
 </ProjectMarkdownLayout>

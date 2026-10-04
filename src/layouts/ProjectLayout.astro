@@ -6,9 +6,16 @@ export interface Props {
   year: number;
   phase: string;
   description: string;
+  sidebar?: Array<{ label: string; value: string }>;
 }
 
-const { title, year, phase, description } = Astro.props;
+const { title, year, phase, description, sidebar } = Astro.props;
+
+// Helper to ensure base url works correctly
+const base = import.meta.env.BASE_URL;
+const getUrl = (path: string) => {
+  return path.startsWith('/') ? `${base === '/' ? '' : base}${path}` : path;
+};
 ---
 
 <BaseLayout title={title}>
@@ -48,6 +55,62 @@ const { title, year, phase, description } = Astro.props;
       display: grid;
       grid-template-columns: 1fr;
       gap: var(--space-xl);
+    }
+
+    .project-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: var(--space-xl);
+      align-items: start;
+    }
+
+    .project-main {
+      min-width: 0;
+    }
+
+    .project-sidebar {
+      background: var(--color-bg-light);
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      padding: var(--space-lg);
+      position: sticky;
+      top: 120px;
+      height: fit-content;
+    }
+
+    .sidebar-item {
+      margin-bottom: var(--space-lg);
+    }
+
+    .sidebar-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .sidebar-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--color-text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: var(--space-xs);
+      display: block;
+    }
+
+    .sidebar-value {
+      font-size: 0.95rem;
+      color: var(--color-text);
+      line-height: 1.6;
+    }
+
+    @media (max-width: 1024px) {
+      .project-wrapper {
+        grid-template-columns: 1fr;
+      }
+
+      .project-sidebar {
+        position: relative;
+        top: 0;
+      }
     }
 
     .section {
@@ -167,7 +230,7 @@ const { title, year, phase, description } = Astro.props;
     }
   </style>
 
-  <a href="/my_portfolio/projects" class="back-link">← Back to Projects</a>
+  <a href={getUrl("/projects")} class="back-link">← Back to Projects</a>
 
   <div class="project-header">
     <h1>{title}</h1>
@@ -182,7 +245,21 @@ const { title, year, phase, description } = Astro.props;
     </div>
   </div>
 
-  <div class="project-content">
-    <slot />
+  <div class={sidebar && sidebar.length > 0 ? "project-wrapper" : "project-content"}>
+    <div class={sidebar && sidebar.length > 0 ? "project-main" : ""}>
+      <div class="project-content">
+        <slot />
+      </div>
+    </div>
+    {sidebar && sidebar.length > 0 && (
+      <aside class="project-sidebar">
+        {sidebar.map((item) => (
+          <div class="sidebar-item">
+            <span class="sidebar-label">{item.label}</span>
+            <div class="sidebar-value">{item.value}</div>
+          </div>
+        ))}
+      </aside>
+    )}
   </div>
 </BaseLayout>

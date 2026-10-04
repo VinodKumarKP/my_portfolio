@@ -7,11 +7,12 @@ export interface Props {
     year: number;
     phase: string;
     description: string;
+    sidebar?: Array<{ label: string; value: string }>;
   };
 }
 
 const { frontmatter } = Astro.props;
-const { title, year, phase, description } = frontmatter;
+const { title, year, phase, description, sidebar } = frontmatter;
 ---
 
 <ProjectLayout
@@ -19,6 +20,7 @@ const { title, year, phase, description } = frontmatter;
   year={year}
   phase={phase}
   description={description}
+  sidebar={sidebar}
 >
   <style is:global>
     :global(.markdown-content) {

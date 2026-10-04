@@ -1,5 +1,17 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { PROJECTS_SIDEBAR } from '../../config';
+
+const allProjects = await getCollection('projects');
+// Sort projects by year descending
+const sortedProjects = allProjects.sort((a, b) => b.data.year - a.data.year);
+
+// Helper to ensure base url works correctly
+const base = import.meta.env.BASE_URL;
+const getUrl = (path: string) => {
+  return path.startsWith('/') ? `${base === '/' ? '' : base}${path}` : path;
+};
 ---
 
 <BaseLayout title="Projects">
@@ -31,9 +43,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
     .project-card {
       padding: 2.5rem;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.3) 100%);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.4);
+      background: var(--color-bg-light);
+      border: 1px solid var(--color-border);
       border-radius: 20px;
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
       transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease, border-color 0.4s ease;
@@ -46,8 +57,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
     @media (prefers-color-scheme: dark) {
       .project-card {
-        background: linear-gradient(135deg, rgba(40, 40, 40, 0.8) 0%, rgba(20, 20, 20, 0.5) 100%);
-        border: 1px solid rgba(255, 255, 255, 0.05);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
       }
     }
 
@@ -119,57 +129,55 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
     .projects-layout {
       display: grid;
-      grid-template-columns: 320px 1fr;
-      gap: 3rem;
+      grid-template-columns: 280px 1fr;
+      gap: 2.5rem;
       align-items: start;
     }
 
-    .patterns-sidebar {
+    .projects-sidebar {
       position: sticky;
-      top: 2rem;
-      padding: 2rem;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.3) 100%);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      border-radius: 20px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
-    }
-    
-    @media (prefers-color-scheme: dark) {
-      .patterns-sidebar {
-        background: linear-gradient(135deg, rgba(40, 40, 40, 0.8) 0%, rgba(20, 20, 20, 0.5) 100%);
-        border: 1px solid rgba(255, 255, 255, 0.05);
-      }
+      top: 120px;
+      padding: var(--space-lg);
+      background: var(--color-bg-light);
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      height: fit-content;
     }
 
-    .patterns-sidebar h3 {
-      font-size: 1.4rem;
-      margin-bottom: 1.5rem;
+    .projects-sidebar h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
       color: var(--color-accent);
-      border-bottom: 2px solid rgba(0, 102, 204, 0.1);
-      padding-bottom: 0.5rem;
+      margin-bottom: var(--space-lg);
+      padding-bottom: var(--space-sm);
+      border-bottom: 2px solid var(--color-border);
     }
 
-    .patterns-sidebar ul {
+    .projects-sidebar ul {
       list-style: none;
       padding: 0;
       margin: 0;
     }
 
-    .patterns-sidebar li {
-      margin-bottom: 1.5rem;
+    .projects-sidebar li {
+      margin-bottom: var(--space-lg);
     }
 
-    .patterns-sidebar li strong {
-      display: block;
-      font-size: 1.05rem;
-      color: var(--color-text);
-      margin-bottom: 0.5rem;
+    .projects-sidebar li:last-child {
+      margin-bottom: 0;
     }
 
-    .patterns-sidebar li a {
+    .projects-sidebar li strong {
       display: block;
       font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: var(--space-xs);
+    }
+
+    .projects-sidebar li a {
+      display: block;
+      font-size: 0.85rem;
       color: var(--color-text-light);
       text-decoration: none;
       padding: 6px 0 6px 12px;
@@ -179,7 +187,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       border-radius: 0 4px 4px 0;
     }
 
-    .patterns-sidebar li a:hover {
+    .projects-sidebar li a:hover {
       color: var(--color-accent);
       border-left-color: var(--color-accent);
       background: rgba(0, 102, 204, 0.05);
@@ -189,9 +197,10 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       .projects-layout {
         grid-template-columns: 1fr;
       }
-      .patterns-sidebar {
-        position: static;
-        margin-bottom: 2rem;
+
+      .projects-sidebar {
+        position: relative;
+        top: 0;
       }
     }
 
@@ -208,261 +217,40 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   </div>
 
   <div class="projects-layout">
-    <aside class="patterns-sidebar">
-      <h3>Architecture Patterns</h3>
-      <ul>
-        <li>
-          <strong>API-First / Microservices</strong>
-          <a href="/my_portfolio/projects/enterprise-ai-platform/">Enterprise AI Platform (Control Plane)</a>
-          <a href="/my_portfolio/projects/agent-development-kit/">Agent Development Kit (ADK)</a>
-        </li>
-        <li>
-          <strong>Event-Driven / CQRS</strong>
-          <a href="/my_portfolio/projects/jira-release-orchestration/">Release Orchestration</a>
-          <a href="/my_portfolio/projects/on-premise-to-cloud/">Event-Driven AWS Migration</a>
-        </li>
-        <li>
-          <strong>Strangler Fig</strong>
-          <a href="/my_portfolio/projects/control-m-to-airflow/">Control-M to Airflow Migration</a>
-        </li>
-        <li>
-          <strong>Infrastructure as Data</strong>
-          <a href="/my_portfolio/projects/jenkins-to-cloudbees/">Jenkins to CloudBees CI</a>
-          <a href="/my_portfolio/projects/generic-etl-process/">Metadata-Driven ETL Framework</a>
-        </li>
-        <li>
-          <strong>Domain-Driven Design (DDD)</strong>
-          <a href="/my_portfolio/projects/pipeline-factory/">Pipeline Factory</a>
-        </li>
-        <li>
-          <strong>Governance / Centralized Logging</strong>
-          <a href="/my_portfolio/projects/release-management-agent/">Autonomous Release Agent</a>
-          <a href="/my_portfolio/projects/observability-secret-management/">Enterprise Observability</a>
-        </li>
-        <li>
-          <strong>Leadership & Mentorship</strong>
-          <a href="/my_portfolio/projects/copilot-agents-extension/">Enterprise Copilot Extension</a>
-          <a href="/my_portfolio/projects/gated-ci-cd-pipelines/">Gated CI/CD & Testing Culture</a>
-          <a href="/my_portfolio/projects/agent-development-kit/">Agent Development Kit (ADK)</a>
-        </li>
-      </ul>
-    </aside>
+    {PROJECTS_SIDEBAR && (
+      <aside class="projects-sidebar">
+        <h3>{PROJECTS_SIDEBAR.title}</h3>
+        <ul>
+          {PROJECTS_SIDEBAR.categories.map((category) => (
+            <li>
+              <strong>{category.name}</strong>
+              {category.projects.map((project) => (
+                <a href={getUrl(`/projects/${project.slug}/`)}>{project.title}</a>
+              ))}
+            </li>
+          ))}
+        </ul>
+      </aside>
+    )}
 
     <div class="projects-grid">
-    <a href="/my_portfolio/projects/release-management-agent/" class="project-card">
-      <div class="project-card-header">
-        <div class="project-card-year">2026</div>
-        <h2 class="project-card-title">Autonomous Release Management Agent</h2>
-        <div class="project-card-phase">AI/GenAI Engineer & Architect</div>
-      </div>
-      <p class="project-card-description">
-        Engineered a multi-agent system that intelligently automates release readiness reviews and directly integrates with Jira and ServiceNow via MCP.
-      </p>
-      <div class="project-card-tags">
-        <span class="tag">Multi-Agent</span>
-        <span class="tag">MCP</span>
-        <span class="tag">Governance</span>
-        <span class="tag">Jira/ServiceNow</span>
-      </div>
-    </a>
-    <a href="/my_portfolio/projects/enterprise-ai-platform/" class="project-card">
-      <div class="project-card-header">
-        <div class="project-card-year">2026</div>
-        <h2 class="project-card-title">Enterprise AI Platform (Control Plane)</h2>
-        <div class="project-card-phase">AI/GenAI Engineer & Architect</div>
-      </div>
-      <p class="project-card-description">
-        Engineered a centralized, UI-driven Enterprise AI Platform for component discovery, automated GitHub repo scanning, and lifecycle governance.
-      </p>
-      <div class="project-card-tags">
-        <span class="tag">Control Plane</span>
-        <span class="tag">UI/UX</span>
-        <span class="tag">Governance</span>
-        <span class="tag">Microservices</span>
-      </div>
-    </a>
-    <a href="/my_portfolio/projects/agent-development-kit/" class="project-card">
-      <div class="project-card-header">
-        <div class="project-card-year">2026</div>
-        <h2 class="project-card-title">Agent Development Kit (ADK) & Registry</h2>
-        <div class="project-card-phase">AI/GenAI Engineer & Architect</div>
-      </div>
-      <p class="project-card-description">
-        Designed a universal Agent Development Kit (ADK) that standardizes LLM agent creation, testing, and discovery across LangGraph, CrewAI, and Claude.
-      </p>
-      <div class="project-card-tags">
-        <span class="tag">LangGraph</span>
-        <span class="tag">CrewAI</span>
-        <span class="tag">MCP</span>
-        <span class="tag">API-First</span>
-        <span class="tag">Microservices</span>
-        <span class="tag" style="background: rgba(138, 43, 226, 0.1); color: #8a2be2; border-color: rgba(138, 43, 226, 0.3);">Mentorship</span>
-      </div>
-    </a>
-    <a href="/my_portfolio/projects/copilot-agents-extension/" class="project-card">
-      <div class="project-card-header">
-        <div class="project-card-year">2026</div>
-        <h2 class="project-card-title">Enterprise Copilot Agents & VS Code Extension</h2>
-        <div class="project-card-phase">AI/GenAI Engineer & Architect</div>
-      </div>
-      <p class="project-card-description">
-        Engineered 58 specialized GenAI agents and distributed them via a custom VS Code extension to drive enterprise AI adoption and eliminate code duplication.
-      </p>
-      <div class="project-card-tags">
-        <span class="tag">GenAI</span>
-        <span class="tag">Copilot</span>
-        <span class="tag">VS Code Extension</span>
-        <span class="tag">TypeScript</span>
-        <span class="tag" style="background: rgba(138, 43, 226, 0.1); color: #8a2be2; border-color: rgba(138, 43, 226, 0.3);">Mentorship</span>
-      </div>
-    </a>
-    <a href="/my_portfolio/projects/jira-release-orchestration/" class="project-card">
-      <div class="project-card-header">
-        <div class="project-card-year">2026</div>
-        <h2 class="project-card-title">Self-Service Release Orchestration</h2>
-        <div class="project-card-phase">DevOps / Release Architect</div>
-      </div>
-      <p class="project-card-description">
-        Eliminated release bottlenecks by engineering a self-service deployment pipeline integrating Jira, ServiceNow, and uDeploy.
-      </p>
-      <div class="project-card-tags">
-        <span class="tag">Jira</span>
-        <span class="tag">ServiceNow</span>
-        <span class="tag">uDeploy</span>
-        <span class="tag">Event-Driven</span>
-      </div>
-    </a>
-    <a href="/my_portfolio/projects/jenkins-to-cloudbees/" class="project-card">
-      <div class="project-card-header">
-        <div class="project-card-year">2024</div>
-        <h2 class="project-card-title">Jenkins to CloudBees CI Migration</h2>
-        <div class="project-card-phase">DevOps / Release Architect</div>
-      </div>
-      <p class="project-card-description">
-        Idempotent migration of 250+ Jenkins pipelines to CloudBees CI using a declarative JSON-driven Pipeline Generator, completed in just 1 week.
-      </p>
-      <div class="project-card-tags">
-        <span class="tag">Jenkins</span>
-        <span class="tag">CloudBees CI</span>
-        <span class="tag">Groovy</span>
-        <span class="tag">JSON</span>
-      </div>
-    </a>
-    <a href="/my_portfolio/projects/pipeline-factory/" class="project-card">
-      <div class="project-card-header">
-        <div class="project-card-year">2023</div>
-        <h2 class="project-card-title">Pipeline Factory: Standardized DevOps</h2>
-        <div class="project-card-phase">DevOps / Release Architect</div>
-      </div>
-      <p class="project-card-description">
-        Designed a metadata-driven Jenkins Pipeline Factory that eliminates Jenkinsfile duplication by dynamically orchestrating isolated, parallel polyglot builds.
-      </p>
-      <div class="project-card-tags">
-        <span class="tag">Jenkins</span>
-        <span class="tag">Docker</span>
-        <span class="tag">Groovy</span>
-        <span class="tag">Factory Pattern</span>
-        <span class="tag">Domain-Driven Design</span>
-      </div>
-    </a>
-    <a href="/my_portfolio/projects/gated-ci-cd-pipelines/" class="project-card">
-      <div class="project-card-header">
-        <div class="project-card-year">2023</div>
-        <h2 class="project-card-title">Gated CI/CD & Testing Culture</h2>
-        <div class="project-card-phase">DevOps / Release Architect</div>
-      </div>
-      <p class="project-card-description">
-        Enforced strict SonarQube quality gates across all pipelines and cultivated a testing culture that took automated unit test coverage from near zero to over 80%.
-      </p>
-      <div class="project-card-tags">
-        <span class="tag">SonarQube</span>
-        <span class="tag">TDD</span>
-        <span class="tag">Bash Testing</span>
-        <span class="tag">Quality Gates</span>
-        <span class="tag" style="background: rgba(138, 43, 226, 0.1); color: #8a2be2; border-color: rgba(138, 43, 226, 0.3);">Mentorship</span>
-      </div>
-    </a>
-    <a href="/my_portfolio/projects/observability-secret-management/" class="project-card">
-      <div class="project-card-header">
-        <div class="project-card-year">2023</div>
-        <h2 class="project-card-title">Enterprise Observability & Security</h2>
-        <div class="project-card-phase">DevOps / Release Architect</div>
-      </div>
-      <p class="project-card-description">
-        Engineered standardized Python and Java SDKs to integrate applications with Splunk for centralized logging and HashiCorp Vault for dynamic secret management.
-      </p>
-      <div class="project-card-tags">
-        <span class="tag">Splunk</span>
-        <span class="tag">HashiCorp Vault</span>
-        <span class="tag">Python</span>
-        <span class="tag">Java</span>
-      </div>
-    </a>
-    <a href="/my_portfolio/projects/control-m-to-airflow/" class="project-card">
-      <div class="project-card-header">
-        <div class="project-card-year">2019</div>
-        <h2 class="project-card-title">Control-M to Apache Airflow Migration</h2>
-        <div class="project-card-phase">DevOps / Data Engineer</div>
-      </div>
-      <p class="project-card-description">
-        Migrated 500+ legacy batch jobs from Control-M to Apache Airflow on Kubernetes, reducing release cycle from 2 weeks to 3 days and eliminating 60% of manual operations.
-      </p>
-      <div class="project-card-tags">
-        <span class="tag">Airflow</span>
-        <span class="tag">Kubernetes</span>
-        <span class="tag">Python</span>
-        <span class="tag">Strangler Fig</span>
-      </div>
-    </a>
-    <a href="/my_portfolio/projects/on-premise-to-cloud/" class="project-card">
-      <div class="project-card-header">
-        <div class="project-card-year">2018</div>
-        <h2 class="project-card-title">Event-Driven AWS Migration</h2>
-        <div class="project-card-phase">Cloud / Data Architect</div>
-      </div>
-      <p class="project-card-description">
-        Architected a cost-optimized, fully event-driven big data pipeline using S3, Lambda, Step Functions, and ephemeral EMR clusters before the era of EMR Serverless.
-      </p>
-      <div class="project-card-tags">
-        <span class="tag">AWS</span>
-        <span class="tag">Lambda</span>
-        <span class="tag">Step Functions</span>
-        <span class="tag">Event-Driven</span>
-        <span class="tag">CQRS</span>
-      </div>
-    </a>
-    <a href="/my_portfolio/projects/generic-etl-process/" class="project-card">
-      <div class="project-card-header">
-        <div class="project-card-year">2010</div>
-        <h2 class="project-card-title">Generic Metadata-Driven ETL Framework</h2>
-        <div class="project-card-phase">Data Engineer</div>
-      </div>
-      <p class="project-card-description">
-        Designed a generic, metadata-driven bash ETL framework that eliminated redundant script creation, introduced automated stateful recovery checkpoints, and centralized custom SQL transformations.
-      </p>
-      <div class="project-card-tags">
-        <span class="tag">Bash</span>
-        <span class="tag">SQL</span>
-        <span class="tag">Data Architecture</span>
-        <span class="tag">ETL</span>
-      </div>
-    </a>
-    <a href="/my_portfolio/projects/enterprise-tokenization-ui/" class="project-card">
-      <div class="project-card-header">
-        <div class="project-card-year">2007</div>
-        <h2 class="project-card-title">Enterprise Tokenization UI</h2>
-        <div class="project-card-phase">ASP.NET Developer</div>
-      </div>
-      <p class="project-card-description">
-        Built a highly reusable, component-driven ASP.NET interface for business analysts to securely tokenize and detokenize sensitive warehouse data across multiple domains without code duplication.
-      </p>
-      <div class="project-card-tags">
-        <span class="tag">ASP.NET</span>
-        <span class="tag">C#</span>
-        <span class="tag">Security</span>
-        <span class="tag">UI/UX</span>
-      </div>
-    </a>
+      {sortedProjects.map((project) => (
+        <a href={getUrl(`/projects/${project.slug}/`)} class="project-card">
+        <div class="project-card-header">
+          <div class="project-card-year">{project.data.year}</div>
+          <h2 class="project-card-title">{project.data.title}</h2>
+          <div class="project-card-phase">{project.data.phase}</div>
+        </div>
+        <p class="project-card-description">
+          {project.data.description}
+        </p>
+        <div class="project-card-tags">
+          {project.data.tags && project.data.tags.map((tag: string) => (
+            <span class="tag">{tag}</span>
+          ))}
+        </div>
+      </a>
+      ))}
     </div>
   </div>
 </BaseLayout>
