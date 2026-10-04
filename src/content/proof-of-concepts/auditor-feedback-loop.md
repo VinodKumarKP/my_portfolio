@@ -53,9 +53,7 @@ graph TD
     S3 -->|Feedback Labels| Glue
     FS -->|Original Claim Features| Glue
     Glue -->|Ground Truth Dataset| Pipe
-    Pipe -->|Retrains Model| Shadow
-    Shadow -->|Passes QA| Prod
-    Prod -->|Anomaly Score\n+ Risk Factors| Agent
+    Pipe -->|Anomaly Score\n+ Risk Factors| Agent
 
     classDef aws fill:#FF9900,stroke:#232F3E,stroke-width:2px,color:#fff;
     classDef data fill:#0066cc,stroke:#fff,stroke-width:2px,color:#fff;
