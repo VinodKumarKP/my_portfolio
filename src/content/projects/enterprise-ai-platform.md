@@ -68,21 +68,18 @@ graph TD
     UI --> Chat
     UI --> Scanner
 
-    Scanner -->|"Scans Code Structure"| GitHub[GitHub Repos]
-    GitHub -->|"Auto-Registers"| AR
-    GitHub -->|"Auto-Registers"| MR
-    GitHub -->|"Auto-Registers"| SR
-    GitHub -->|"Auto-Registers"| KR
+    Scanner -->|Scans Code| GitHub[GitHub Repos]
+    GitHub -->|Auto-Registers| Registries["📦 Registries<br/>AR, MR, SR, KR"]
+    Registries --> AR
+    Registries --> MR
+    Registries --> SR
+    Registries --> KR
 
-    LC -->|"CRUD / Lifecycle APIs"| AR
-    LC -->|"CRUD / Lifecycle APIs"| MR
-    LC -->|"CRUD / Lifecycle APIs"| SR
-    LC -->|"CRUD / Lifecycle APIs"| KR
+    LC -->|CRUD / Lifecycle| Registries
 
-    Chat -->|"Interact & Audit"| ADK
-    YAML -->|"Dynamic Resolution"| MR
-    YAML -->|"Dynamic Resolution"| SR
-    YAML -->|"Dynamic Resolution"| KR
+    Chat -->|Interact & Audit| ADK
+    YAML -->|Dynamic Resolution| Registries
+    ADK -->|Execute| Registries
 
     classDef ui fill:#8a2be2,stroke:#fff,stroke-width:2px,color:#fff;
     classDef control fill:#0066cc,stroke:#fff,stroke-width:2px,color:#fff;
