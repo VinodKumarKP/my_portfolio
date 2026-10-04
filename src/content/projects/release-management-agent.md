@@ -55,7 +55,6 @@ graph TD
         SN[ServiceNow]
     end
 
-    Trigger[Release Trigger] --> OA
     OA --> QA
     OA --> SA
     OA --> RA
