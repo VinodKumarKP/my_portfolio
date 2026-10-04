@@ -137,6 +137,26 @@ graph TD
       max-height: 400px;
       overflow-y: auto;
     }
+    @media (max-width: 768px) {
+      .registry-container.active {
+        grid-template-columns: 1fr;
+      }
+      .registry-sidebar {
+        border-right: none;
+        border-bottom: 1px solid var(--color-border);
+        max-height: none;
+        margin-bottom: 1rem;
+        display: flex;
+        overflow-x: auto;
+        overflow-y: hidden;
+        gap: 0.5rem;
+      }
+      .registry-sidebar-item {
+        white-space: nowrap;
+        padding: 0.5rem 1rem;
+        flex-shrink: 0;
+      }
+    }
     .registry-sidebar-item {
       padding: 0.75rem;
       margin-bottom: 0.5rem;

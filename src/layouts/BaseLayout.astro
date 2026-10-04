@@ -96,6 +96,18 @@ const { title, description = "Vinod Kumar - Data & AI Architect" } = Astro.props
         align-items: center;
       }
 
+      @media (max-width: 768px) {
+        nav {
+          padding: 0 var(--space-md);
+        }
+      }
+
+      @media (max-width: 640px) {
+        nav {
+          padding: 0 var(--space-sm);
+        }
+      }
+
       .logo {
         font-weight: 700;
         font-size: 1.25rem;
@@ -103,11 +115,35 @@ const { title, description = "Vinod Kumar - Data & AI Architect" } = Astro.props
         color: var(--color-accent);
       }
 
+      @media (max-width: 768px) {
+        .logo {
+          font-size: 1rem;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .logo {
+          font-size: 0.9rem;
+        }
+      }
+
       .nav-links {
         display: flex;
         gap: var(--space-lg);
         list-style: none;
         align-items: center;
+      }
+
+      @media (max-width: 768px) {
+        .nav-links {
+          gap: var(--space-md);
+        }
+      }
+
+      @media (max-width: 640px) {
+        .nav-links {
+          gap: var(--space-sm);
+        }
       }
 
       .nav-links a {
@@ -118,6 +154,19 @@ const { title, description = "Vinod Kumar - Data & AI Architect" } = Astro.props
         position: relative;
         padding-bottom: 4px;
         transition: color 0.3s ease;
+      }
+
+      @media (max-width: 768px) {
+        .nav-links a {
+          font-size: 0.85rem;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .nav-links a {
+          font-size: 0.75rem;
+          padding-bottom: 2px;
+        }
       }
 
       .nav-links a::after {
@@ -169,6 +218,18 @@ const { title, description = "Vinod Kumar - Data & AI Architect" } = Astro.props
         padding: var(--space-lg);
       }
 
+      @media (max-width: 768px) {
+        main {
+          padding: var(--space-md);
+        }
+      }
+
+      @media (max-width: 640px) {
+        main {
+          padding: var(--space-sm);
+        }
+      }
+
       footer {
         border-top: 1px solid var(--color-border);
         padding: var(--space-xl) var(--space-lg);
@@ -176,6 +237,22 @@ const { title, description = "Vinod Kumar - Data & AI Architect" } = Astro.props
         text-align: center;
         color: var(--color-text-light);
         font-size: 0.9rem;
+      }
+
+      @media (max-width: 768px) {
+        footer {
+          padding: var(--space-lg) var(--space-md);
+          margin-top: var(--space-lg);
+          font-size: 0.85rem;
+        }
+      }
+
+      @media (max-width: 640px) {
+        footer {
+          padding: var(--space-md);
+          margin-top: var(--space-md);
+          font-size: 0.8rem;
+        }
       }
 
       a {
