@@ -27,6 +27,12 @@ Release management is traditionally a tedious, manual chore. Release Managers ha
 
 **Solution:** I integrated the multi-agent system directly with our ITSM tools using custom **Model Context Protocol (MCP)** servers registered in the ADK. If the collective intelligence of the agents decides a branch is *not* ready for release, the ADK orchestrator autonomously generates detailed Jira tickets assigning specific fixes to the responsible developers, and automatically creates the corresponding ServiceNow audit tickets with full context of the failure.
 
+### Challenge 3: Deployment Governance & Human-in-the-Loop
+**Issue:** Fully autonomous deployment by AI poses unacceptable compliance and operational risks. The business required strict human oversight before any code hit production.
+
+
+**Solution:** I architected the agent to strictly act as an advisor, not an executor. Instead of triggering deployments automatically, the agent generates a comprehensive, informational "Release Readiness Report" summarizing all metrics, identified issues, and its final recommendation. The human Release Manager reviews this report and makes the final, authoritative decision to approve or reject the deployment, maintaining strict AI governance.
+
 ## Architecture
 
 - **Orchestrator Agent:** An ADK-powered supervisor agent that delegates tasks to specialized sub-agents.
@@ -70,7 +76,9 @@ graph TD
     MCP_ITSM -->|"Create Issue"| Jira
     MCP_ITSM -->|"Audit Trail"| SN
 
-    OA -->|"Decision: Approve"| Deploy[Proceed to Deployment]
+    OA -->|"Decision: Approve"| Report[Generates Readiness Report]
+    Report -->|"Reviews Report"| Manager((Release Manager))
+    Manager -.->|"Final Approval"| Deploy[Trigger Deployment]
 
     classDef agent fill:#8a2be2,stroke:#fff,stroke-width:2px,color:#fff;
     classDef ext fill:#0066cc,stroke:#fff,stroke-width:2px,color:#fff;
