@@ -93,6 +93,91 @@ graph TD
     class J,K,L test;
 ```
 
+#### Agent YAML:
+
+```json
+model:
+  model_id: bedrock/global.anthropic.claude-sonnet-4-5-20250929-v1:0
+  region_name: us-west-2
+
+tools:
+  utils:
+    module: flight_tools
+    base_path: "./utils"
+
+mcps:
+  hotel_tools:
+    command: hotel_mcp_server
+    args: []
+
+agent_list:
+  - flight_assistant:
+      system_prompt: |
+        You are a flight booking assistant - {{ DATE %Y-%m-%d 1 }}
+        You can search for flights and book them.
+      tools:
+        - search_flights
+        - book_flight
+      structured_output_model: FlightConfirmation
+
+  - hotel_assistant:
+      system_prompt: |
+        You are a hotel booking assistant - {{ DATE %Y-%m-%d 1 }}
+        You can search for hotels and book them.
+      mcps:
+        - hotel_tools
+      tools:
+        - search_hotels
+        - book_hotel
+      context: [flight_assistant]
+
+system_prompt: |
+  You are a travel concierge supervisor - {{ DATE %Y-%m-%d 1 }}
+  You have access to the following specialized agents:
+  - flight_assistant: For flight searches and bookings.
+  - hotel_assistant: For hotel searches and bookings.
+  
+  Delegate tasks to the appropriate agent based on the user's request.
+  For complex requests involving both, coordinate between them.
+  
+  Parse the structured output and present the summary
+
+crew_config:
+  pattern: swarm
+  structured_output_model: CompleteItinerary
+
+structured_output:
+  script_dir: "./structured_output"
+
+guardrails:
+  validators:
+    - name: competitor_check
+      full_name: guardrails/competitor_check
+      parameters:
+        competitors: ["Hilton", "Marriott", "IHG"]
+      on_fail: "fix"
+    - name: DetectPII
+      class_name: DetectPII
+      full_name: guardrails/detect_pii
+      parameters:
+        pii_entities: [ "EMAIL_ADDRESS", "PHONE_NUMBER" "SSN"]
+    - name: profanity_free
+      full_name: guardrails/profanity_free
+  input:
+    validators:
+      - ref: DetectPII
+      - ref: profanity_free
+  output:
+    validators:
+      - ref: profanity_free
+      - ref: DetectPII
+      - ref: competitor_check
+        on_fail: "exception" # Override on_fail for this specific use case
+      - ref: restrict_to_topic
+        on_fail: "exception" # Override on_fail for this specific use case
+
+```
+
 ## Business Outcomes
 - **Universal Interoperability:** Front-end platforms can now consume any agent—whether it's built on LangGraph or CrewAI—using a single, unified protocol.
 - **Enterprise Reusability:** The Skill and MCP registries prevented massive duplication of effort; a tool built by the data team can now be instantly utilized by an agent built by the DevOps team.
