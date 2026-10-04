@@ -78,8 +78,9 @@ graph TD
     LC -->|"CRUD / Lifecycle APIs"| KR
 
     Chat -->|"Interact & Audit"| ADK
-    YAML -->|"Dynamic Resolution"| AR
     YAML -->|"Dynamic Resolution"| MR
+    YAML -->|"Dynamic Resolution"| SR
+    YAML -->|"Dynamic Resolution"| KR
 
     classDef ui fill:#8a2be2,stroke:#fff,stroke-width:2px,color:#fff;
     classDef control fill:#0066cc,stroke:#fff,stroke-width:2px,color:#fff;
