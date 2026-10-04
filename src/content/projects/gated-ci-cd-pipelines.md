@@ -18,10 +18,14 @@ You cannot suddenly turn on strict quality gates for teams that have never writt
 
 ### Challenge 1: Enforcing Quality Without Halting Development
 **Issue:** Pipelines allowed teams to deploy code with critical vulnerabilities, bugs, and zero test coverage.
+
+
 **Solution:** I implemented a hard-gated pipeline architecture using SonarQube. If a scan failed or if code coverage dropped below the strict 80% threshold, the pipeline automatically aborted the deployment. To prevent bringing development to a halt, I rolled this out in a phased manner—initially running in "audit-only" mode to show teams their baseline, then progressively shifting to hard enforcement.
 
 ### Challenge 2: Cultivating a Testing Culture
 **Issue:** Application teams did not know how to write comprehensive unit tests, resolve complex SonarQube code smells, or test legacy Bash scripts.
+
+
 **Solution:** I led a massive cultural transformation by conducting hands-on workshops across multiple teams. I taught them how to write unit tests, mock dependencies, and fix security hotspots. Crucially, I introduced Bash unit testing frameworks (e.g., Bats) to the organization to cover our massive footprint of shell scripts. By the end of the year, every single application team in my BU had fully implemented automated unit testing and passed the 80% SonarQube gate.
 
 ### Architecture

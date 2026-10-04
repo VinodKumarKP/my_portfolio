@@ -20,6 +20,8 @@ There were multiple sensitive data types (such as Credit Card, SSN, Checking Acc
 
 **Issue:** Building individual pages for each of the multiple sensitive types (Credit, SSN, Checking Account, etc.) would be inefficient and hard to maintain.
 
+
+
 **Solution:** Instead of building one page for each sensitive type, I built a single reusable component where I just needed to pass the sensitive data type as a parameter.
 
 ### UI Architecture

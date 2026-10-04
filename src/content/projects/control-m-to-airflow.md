@@ -23,14 +23,20 @@ Migrated **100+ workflows** (1000+ interdependent jobs) from legacy Control-M to
 
 ### Challenge 1: Unmaintainable DAG Files
 **Issue:** Writing individual DAG files for each workflow would be tedious and error-prone. Maintenance nightmare if Control-M jobs change during migration.
+
+
 **Solution:** Built Python DAG generator converting Control-M XML to JSON configs. 85% automation for DAG creation.
 
 ### Challenge 2: Phased Migration Risk
 **Issue:** Migration happened in phases. Migrated Airflow DAGs might depend on un-migrated Control-M workflows. Risk of breaking existing dataflows.
+
+
 **Solution:** Built hybrid operators: ControlM Polling Sensor and ControlM Trigger Operator for seamless cross-system execution.
 
 ### Challenge 3: Missing Operators
 **Issue:** Airflow lacked native Control-M polling, SSH operations, and ServiceNow integration.
+
+
 **Solution:** Built 5 custom operators: ControlM Poll/Trigger, SSH Sensor/Operator, ServiceNow Hook. Reusable across projects.
 
 ## Solution: DAG Generator & Custom Operators

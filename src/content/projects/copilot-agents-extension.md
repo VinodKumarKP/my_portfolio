@@ -18,10 +18,14 @@ The few teams that *did* adopt AI started building their own custom agents. Unfo
 
 ### Challenge 1: Low Adoption and Inconsistent Output
 **Issue:** Developers were not using Copilot effectively because writing prompts for complex enterprise tasks (like debugging Jenkins pipelines or scaffolding internal frameworks) yielded inconsistent and unreliable results.
+
+
 **Solution:** I designed and implemented 58 highly specialized Copilot agents tailored to specific engineering workflows. These included a Bitbucket Agent, PR Review Agent, Jenkins Debugger, Project Scaffolder, Code Scanners, and a Release Orchestrator. By embedding expert context into the agents, developers received high-quality, predictable outputs without needing to be prompt engineers.
 
 ### Challenge 2: Duplicate Agents and Maintenance Overhead
 **Issue:** Teams were copying agent code into every project repository. Enhancing an agent required a massive, cross-repository refactoring effort, leading to version drift and fragmented capabilities.
+
+
 **Solution:** I centralized the agent logic and developed a custom Visual Studio Code Extension to distribute them. Instead of copying code into their repos, developers simply install the extension once. All 58 agents become instantly available globally across all their local projects, ensuring everyone is always using the latest, centralized version of the AI tools.
 
 ### Architecture

@@ -18,10 +18,14 @@ Deploying code required manual coordination, manual ticket creation in ServiceNo
 
 ### Challenge 1: The Release Team Bottleneck
 **Issue:** Application teams were entirely dependent on a central release team to deploy their code, slowing down release cycles significantly.
+
+
 **Solution:** I introduced a Jira story-based release model. Now, the application team simply creates a release Jira story, which automatically triggers a ServiceNow API integration to generate the required Change Request (CR) behind the scenes, eliminating manual ticket work.
 
 ### Challenge 2: Secure, Automated Execution
 **Issue:** Even after a CR was approved, deploying across multiple environments (Prod, DR, Exploratory) and keeping tickets up-to-date was a highly manual, error-prone task.
+
+
 **Solution:** I built an integration where, once the ServiceNow CR is approved, authorized application developers see an "Execute Deployment" button directly in the ticket. Clicking this triggers uDeploy to automatically roll out the code to Prod, Disaster Recovery, and Exploratory environments. Simultaneously, the process updates the ServiceNow ticket with real-time deployment progress and automatically merges the GitHub Pull Request to the master branch upon success.
 
 ### Architecture

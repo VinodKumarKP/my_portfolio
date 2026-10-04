@@ -18,10 +18,14 @@ Manually re-creating or exporting/importing 250+ jobs is inherently error-prone.
 
 ### Challenge 1: Mass Migration at Scale
 **Issue:** Migrating 250+ pipelines manually requires massive coordination, downtime, and carries a high risk of human error during configuration translation.
+
+
 **Solution:** I abstracted all pipeline configurations into declarative JSON files. I then engineered a **Pipeline Generator** script within Jenkins. This generator read the JSON configs as a source of truth and automatically mapped them to the new CloudBees CI environment.
 
 ### Challenge 2: Ensuring Safe, Repeatable Executions
 **Issue:** If a mass-migration script fails halfway through, determining which jobs were created and which were missed becomes a nightmare. 
+
+
 **Solution:** I designed the Pipeline Generator to be completely **idempotent**. When executed, it checks the CloudBees API to see if the job already exists. If it does not, it creates it. If it does, it verifies and updates it. This allowed me to safely run the migration script repeatedly without fear of duplication. As a result, I completed the entire migration and verification testing in exactly 1 week, and was awarded the **'Innovation Champion'** award by the client manager.
 
 ### Architecture

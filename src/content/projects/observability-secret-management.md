@@ -18,10 +18,14 @@ When a production incident occurred, developers had to SSH into individual serve
 
 ### Challenge 1: Lack of Centralized Observability
 **Issue:** Application teams had no centralized logging mechanism, making cross-service production debugging extremely difficult and time-consuming.
+
+
 **Solution:** I engineered robust Python and Java-based logging frameworks that application teams could easily import into their projects. I collaborated closely with the enterprise Splunk team to route and index these structured logs. This transformed debugging from a manual server-by-server hunt into a centralized, highly searchable Splunk dashboard experience.
 
 ### Challenge 2: Insecure & Static Secret Management
 **Issue:** Storing secrets in configuration files or JKS keystores meant that rotating a secret required a full application redeployment, leading to infrequent rotations and high security risk.
+
+
 **Solution:** I designed and developed standardized Python and Java integration frameworks for HashiCorp Vault. Instead of reading local configs, applications use my SDK to dynamically fetch secrets at runtime. Secret rotation is now instantaneous, managed centrally in Vault, and entirely decoupled from the application's deployment lifecycle.
 
 ### Architecture

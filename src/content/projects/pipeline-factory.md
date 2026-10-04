@@ -18,10 +18,14 @@ If a team had a project containing both Scala and Python, the DevOps team had to
 
 ### Challenge 1: Unmanageable Pipeline Duplication
 **Issue:** Maintaining hundreds of permutation-specific `Jenkinsfiles` (e.g., Scala+Python, Bash+AbInitio, Maven v3 vs v4) caused widespread duplication and made rolling out global security or deployment updates nearly impossible.
+
+
 **Solution:** I engineered a "Pipeline Factory" approach. Instead of writing declarative Jenkinsfiles per project, development teams simply pass a deployment type array in a config file (e.g., `['scala', 'python']`). The Factory dynamically generates the pipeline structure at runtime using a centralized, common platform class.
 
 ### Challenge 2: Multi-Language Polyglot Execution
 **Issue:** Projects often contained multiple languages, but running these builds sequentially on a single Jenkins agent caused dependency collisions and extremely slow CI/CD cycle times.
+
+
 **Solution:** Within the common platform class, I defined a standard lifecycle: `Checkout -> Build -> Code Scan -> Artifact Generation -> Deployment`. I modified the Build stage to dynamically provision isolated Docker containers for each requested deployment type (e.g., `PythonBuild`, `ScalaBuild`). The Factory loops through the array, executing the builds concurrently in isolation, and automatically joins the state to proceed to the `Code Scan` stage only once all parallel builds succeed.
 
 ### Architecture

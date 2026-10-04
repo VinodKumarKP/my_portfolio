@@ -18,14 +18,20 @@ The team was stuck in a copy-paste development cycle. Without standardized check
 
 ### Challenge 1: Code Duplication and Maintenance
 **Issue:** The current ETL process followed no standards. The team created individual bash and loading scripts for every process. Enhancing the pipeline meant manually updating every single script across the codebase.
+
+
 **Solution:** I created a single generic bash script that accepts a process name. By building a metadata lookup table mapping process names to their corresponding stage and enterprise tables, the generic script dynamically generates the necessary INSERT statements on the fly.
 
 ### Challenge 2: Managing Custom SQL Transformations
 **Issue:** Not all pipelines were simple straight-loads. Custom SQL logic was hardcoded in scattered scripts, making version control and rollbacks practically impossible.
+
+
 **Solution:** I implemented a centralized SQL lookup table. For custom transformations, we simply added an entry with a sequence number. The generic process executes the SQL in order, meaning logic changes only require a simple table update—making rollbacks trivial.
 
 ### Challenge 3: Lack of Fault Tolerance
 **Issue:** There were no execution checkpoints. If a multi-hour process failed halfway through, engineers had to manually untangle the state to restart it safely.
+
+
 **Solution:** I engineered stateful checkpoints into the generic framework so that upon failure, the process knows its exact state and resumes precisely from where it left off automatically.
 
 ### Architecture

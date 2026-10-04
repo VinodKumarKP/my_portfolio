@@ -18,10 +18,14 @@ Running persistent EMR clusters 24/7 for intermittent file processing would have
 
 ### Challenge 1: Cost-Optimized Event-Driven EMR
 **Issue:** The client needed to process files in EMR without paying for persistent, idle clusters. Additionally, different file classes required dynamic routing and isolated execution states.
+
+
 **Solution:** I designed an architecture where files landing in an S3 bucket instantly trigger an AWS Lambda. The Lambda analyzes the file and either builds a new AWS Step Function for that specific file class or triggers an existing one. The Step Function acts as the orchestrator: it spins up an ephemeral EMR cluster, submits the processing job, waits for successful completion, and then immediately destroys the EMR cluster to halt billing.
 
 ### Challenge 2: Infrastructure as Code & CI/CD
 **Issue:** Manually provisioning Lambda functions, Step Functions, and IAM roles across different environments is error-prone, insecure, and doesn't scale.
+
+
 **Solution:** I created highly reusable Terraform modules for all the AWS components and set up an automated infrastructure deployment pipeline in GitLab CI/CD, enabling one-click reproducible deployments.
 
 ### Architecture
