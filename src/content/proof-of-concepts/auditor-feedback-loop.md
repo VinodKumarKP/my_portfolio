@@ -20,7 +20,7 @@ Here are two ways to solve this, depending on what kind of AI you're using.
 
 ### Approach 1: Traditional ML (Weekly Model Retraining)
 
-Use an XGBoost model to score claims based on billing codes and claim history. When auditors reject predictions, we automatically retrain the model weekly with this new feedback. The updated model is deployed as an API endpoint that the LLM agent can call to get numerical risk scores.
+Use model to score claims based on billing codes and claim history. When auditors reject predictions, we automatically retrain the model weekly with this new feedback. The updated model is deployed as an API endpoint that the LLM agent can call to get numerical risk scores.
 
 ```mermaid
 graph TD
@@ -73,7 +73,7 @@ graph TD
 **How it works:**
 1. **Capture feedback:** When an auditor rejects a prediction, send the claim ID, features, and rejection reason to a data pipeline.
 2. **Store and join data:** Combine the rejection with the original claim features in a database.
-3. **Retrain weekly:** Run a job that takes all the new rejections + features and retrains the XGBoost model. Test it against the old model to make sure it's actually better before deploying.
+3. **Retrain weekly:** Run a job that takes all the new rejections + features and retrains the model. Test it against the old model to make sure it's actually better before deploying.
 4. **Expose as an API:** Deploy the new model so the LLM agent can call it. When processing a claim, the agent asks: "What does the ML model think about this claim?" and gets back a risk score plus a list of red flags (e.g., billing code mismatch, unusual claim amount).
 5. **Combined reasoning:** The agent uses both the ML score and the medical chart to make a decision. For example: "The model says fraud risk is 82%, and I see the claim amount is double the patient's usual claims. Together, this looks suspicious."
 
