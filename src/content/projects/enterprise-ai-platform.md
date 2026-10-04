@@ -90,6 +90,11 @@ graph TD
     class AR,MR,SR,KR reg;
 ```
 
+## Sample UI Images
+
+![Sample UI Image 1](ai_platform.svg)
+
+
 ## Live Registry Explorer
 
 <div style="margin: 2rem 0; padding: 1.5rem; background: var(--color-bg-light); border: 1px solid var(--color-border); border-radius: 12px; overflow: hidden;">
