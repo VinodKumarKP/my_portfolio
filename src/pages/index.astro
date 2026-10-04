@@ -125,13 +125,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     
     .timeline-item:nth-child(odd):hover .content {
       transform: translateX(-10px) translateY(-5px);
-      box-shadow: 0 15px 35px rgba(0, 102, 204, 0.15);
-      border-color: rgba(0, 102, 204, 0.3);
+      box-shadow: 0 20px 50px rgba(0, 102, 204, 0.25), inset 0 0 20px rgba(0, 102, 204, 0.1);
+      border-color: rgba(0, 102, 204, 0.5);
     }
     .timeline-item:nth-child(even):hover .content {
       transform: translateX(10px) translateY(-5px);
-      box-shadow: 0 15px 35px rgba(138, 43, 226, 0.15);
-      border-color: rgba(138, 43, 226, 0.3);
+      box-shadow: 0 20px 50px rgba(138, 43, 226, 0.25), inset 0 0 20px rgba(138, 43, 226, 0.1);
+      border-color: rgba(138, 43, 226, 0.5);
     }
 
     .year {
@@ -213,6 +213,34 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       color: var(--color-text-light);
       font-size: 0.9rem;
       margin-top: var(--space-xs);
+    }
+
+    .metric-icon {
+      font-size: 2rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .current-focus-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--color-accent), #8a2be2);
+      color: white;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-left: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      animation: pulse-glow 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% {
+        box-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
+      }
+      50% {
+        box-shadow: 0 0 20px rgba(138, 43, 226, 0.8);
+      }
     }
 
     @media (max-width: 768px) {
@@ -328,7 +356,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <div class="timeline-item">
         <div class="timeline-dot"></div>
         <div class="content">
-          <div class="year">2026</div>
+          <div class="year">2026<span class="current-focus-badge">Current Focus</span></div>
           <div class="phase-title">AI/GenAI Engineer & Architect</div>
           <div class="phase-desc">LLM agents, RAG systems, agentic platforms, AI Champion award.</div>
           <a href="/my_portfolio/projects/copilot-agents-extension/" class="timeline-project-link">View Project: Copilot VS Code Extension →</a>
@@ -342,14 +370,17 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
   <div class="metrics">
     <div class="metric">
+      <div class="metric-icon">💻</div>
       <div class="metric-number">18+</div>
       <div class="metric-label">Years of Software Engineering</div>
     </div>
     <div class="metric">
+      <div class="metric-icon">📜</div>
       <div class="metric-number">10+</div>
       <div class="metric-label">Industry Certifications</div>
     </div>
     <div class="metric">
+      <div class="metric-icon">🏆</div>
       <div class="metric-number">4</div>
       <div class="metric-label">Awards & Recognitions</div>
     </div>
