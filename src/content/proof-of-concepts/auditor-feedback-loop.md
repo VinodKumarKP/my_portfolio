@@ -41,8 +41,6 @@ graph TD
 
     subgraph Automated Retraining
         Pipe[SageMaker Pipeline]
-        Shadow[Shadow Endpoint]
-        Prod[Production Endpoint]
     end
 
     subgraph Agentic Integration
