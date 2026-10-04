@@ -61,3 +61,14 @@ export const PROJECTS_SIDEBAR = {
     }
   ]
 };
+export const POC_SIDEBAR = {
+  title: "Categories",
+  categories: [
+    {
+      name: "AIOps & Observability",
+      projects: [
+        { title: "Proactive Anomaly Detection", slug: "anomaly-detection" }
+      ]
+    }
+  ]
+};

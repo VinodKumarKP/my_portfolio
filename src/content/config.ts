@@ -15,6 +15,18 @@ const projectsCollection = defineCollection({
   }),
 });
 
+const proofOfConceptsCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    year: z.number(),
+    phase: z.string(),
+    description: z.string(),
+    tags: z.array(z.string()).optional(),
+  }),
+});
+
 export const collections = {
   projects: projectsCollection,
+  'proof-of-concepts': proofOfConceptsCollection,
 };

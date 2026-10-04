@@ -1,0 +1,256 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { POC_SIDEBAR } from '../../config';
+
+const allProjects = await getCollection('proof-of-concepts');
+// Sort projects by year descending
+const sortedProjects = allProjects.sort((a, b) => b.data.year - a.data.year);
+
+// Helper to ensure base url works correctly
+const base = import.meta.env.BASE_URL;
+const getUrl = (path: string) => {
+  return path.startsWith('/') ? `${base === '/' ? '' : base}${path}` : path;
+};
+---
+
+<BaseLayout title="Proof of Concepts">
+  <style>
+    .projects-intro {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .projects-intro h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, var(--color-accent), #8a2be2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 800;
+    }
+    
+    .projects-intro p {
+      font-size: 1.2rem;
+      color: var(--color-text-light);
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 2.5rem;
+    }
+
+    .project-card {
+      padding: 2.5rem;
+      background: var(--color-bg-light);
+      border: 1px solid var(--color-border);
+      border-radius: 20px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease, border-color 0.4s ease;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .project-card {
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+      }
+    }
+
+    .project-card:hover {
+      border-color: rgba(0, 102, 204, 0.4);
+      box-shadow: 0 20px 40px rgba(0, 102, 204, 0.15);
+      transform: translateY(-10px);
+    }
+
+    .project-card-header {
+      margin-bottom: 1.5rem;
+    }
+
+    .project-card-year {
+      font-size: 1.2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--color-accent), #8a2be2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.5rem;
+    }
+
+    .project-card-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--color-text);
+      line-height: 1.3;
+    }
+
+    .project-card-phase {
+      font-size: 1rem;
+      color: var(--color-accent);
+      font-weight: 600;
+      opacity: 0.8;
+      margin-bottom: 1rem;
+    }
+
+    .project-card-description {
+      flex-grow: 1;
+      margin-bottom: 2rem;
+      line-height: 1.7;
+      font-size: 1.05rem;
+      color: var(--color-text-light);
+    }
+
+    .project-card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 6px 14px;
+      background: rgba(0, 102, 204, 0.05);
+      border: 1px solid rgba(0, 102, 204, 0.15);
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--color-accent);
+      transition: all 0.3s ease;
+    }
+
+    .project-card:hover .tag {
+      background: rgba(0, 102, 204, 0.1);
+      border-color: rgba(0, 102, 204, 0.3);
+    }
+
+    .projects-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 2.5rem;
+      align-items: start;
+    }
+
+    .projects-sidebar {
+      position: sticky;
+      top: 120px;
+      padding: var(--space-lg);
+      background: var(--color-bg-light);
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      height: fit-content;
+    }
+
+    .projects-sidebar h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--color-accent);
+      margin-bottom: var(--space-lg);
+      padding-bottom: var(--space-sm);
+      border-bottom: 2px solid var(--color-border);
+    }
+
+    .projects-sidebar ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .projects-sidebar li {
+      margin-bottom: var(--space-lg);
+    }
+
+    .projects-sidebar li:last-child {
+      margin-bottom: 0;
+    }
+
+    .projects-sidebar li strong {
+      display: block;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: var(--space-xs);
+    }
+
+    .projects-sidebar li a {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--color-text-light);
+      text-decoration: none;
+      padding: 6px 0 6px 12px;
+      border-left: 2px solid transparent;
+      transition: all 0.2s ease;
+      margin-bottom: 0.25rem;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .projects-sidebar li a:hover {
+      color: var(--color-accent);
+      border-left-color: var(--color-accent);
+      background: rgba(0, 102, 204, 0.05);
+    }
+
+    @media (max-width: 1024px) {
+      .projects-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .projects-sidebar {
+        position: relative;
+        top: 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+
+  <div class="projects-intro">
+    <h1>Proof of Concepts</h1>
+    <p>Experimental prototypes and technical explorations</p>
+  </div>
+
+  <div class="projects-layout">
+    {POC_SIDEBAR && (
+      <aside class="projects-sidebar">
+        <h3>{POC_SIDEBAR.title}</h3>
+        <ul>
+          {POC_SIDEBAR.categories.map((category) => (
+            <li>
+              <strong>{category.name}</strong>
+              {category.projects.map((project) => (
+                <a href={getUrl(`/proof-of-concepts/${project.slug}/`)}>{project.title}</a>
+              ))}
+            </li>
+          ))}
+        </ul>
+      </aside>
+    )}
+
+    <div class="projects-grid">
+      {sortedProjects.map((project) => (
+        <a href={getUrl(`/proof-of-concepts/${project.slug}/`)} class="project-card">
+        <div class="project-card-header">
+          <div class="project-card-year">{project.data.year}</div>
+          <h2 class="project-card-title">{project.data.title}</h2>
+          <div class="project-card-phase">{project.data.phase}</div>
+        </div>
+        <p class="project-card-description">
+          {project.data.description}
+        </p>
+        <div class="project-card-tags">
+          {project.data.tags && project.data.tags.map((tag: string) => (
+            <span class="tag">{tag}</span>
+          ))}
+        </div>
+      </a>
+      ))}
+    </div>
+  </div>
+</BaseLayout>

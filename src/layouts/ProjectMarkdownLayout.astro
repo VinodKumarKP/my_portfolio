@@ -9,9 +9,11 @@ export interface Props {
     description: string;
     sidebar?: Array<{ label: string; value: string }>;
   };
+  backUrl?: string;
+  backText?: string;
 }
 
-const { frontmatter } = Astro.props;
+const { frontmatter, backUrl, backText } = Astro.props;
 const { title, year, phase, description, sidebar } = frontmatter;
 ---
 
@@ -21,6 +23,8 @@ const { title, year, phase, description, sidebar } = frontmatter;
   phase={phase}
   description={description}
   sidebar={sidebar}
+  backUrl={backUrl}
+  backText={backText}
 >
   <style is:global>
     :global(.markdown-content) {

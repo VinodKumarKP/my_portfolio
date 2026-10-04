@@ -1,0 +1,33 @@
+---
+import { getCollection } from 'astro:content';
+import ProjectMarkdownLayout from '../../layouts/ProjectMarkdownLayout.astro';
+
+// Get all markdown files from content/proof-of-concepts
+const allProjects = await getCollection('proof-of-concepts');
+
+// Generate paths for each project
+export async function getStaticPaths() {
+  const projects = await getCollection('proof-of-concepts');
+
+  return projects.map(entry => ({
+    params: { slug: entry.slug },
+    props: { entry }
+  }));
+}
+
+interface Props {
+  entry: typeof allProjects[0];
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+const { title, year, phase, description, sidebar } = entry.data;
+---
+
+<ProjectMarkdownLayout 
+  frontmatter={{ title, year, phase, description, sidebar }}
+  backUrl="/proof-of-concepts"
+  backText="← Back to Proof of Concepts"
+>
+  <Content />
+</ProjectMarkdownLayout>

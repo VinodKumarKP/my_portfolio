@@ -7,9 +7,11 @@ export interface Props {
   phase: string;
   description: string;
   sidebar?: Array<{ label: string; value: string }>;
+  backUrl?: string;
+  backText?: string;
 }
 
-const { title, year, phase, description, sidebar } = Astro.props;
+const { title, year, phase, description, sidebar, backUrl = "/projects", backText = "← Back to Projects" } = Astro.props;
 
 // Helper to ensure base url works correctly
 const base = import.meta.env.BASE_URL;
@@ -268,7 +270,7 @@ const getUrl = (path: string) => {
     }
   </style>
 
-  <a href={getUrl("/projects")} class="back-link">← Back to Projects</a>
+  <a href={getUrl(backUrl)} class="back-link">{backText}</a>
 
   <div class="project-header">
     <h1>{title}</h1>
