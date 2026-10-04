@@ -71,6 +71,8 @@ graph TD
     Scanner -->|"Scans Code Structure"| GitHub[GitHub Repos]
     GitHub -->|"Auto-Registers"| AR
     GitHub -->|"Auto-Registers"| MR
+    GitHub -->|"Auto-Registers"| SR
+    GitHub -->|"Auto-Registers"| KR
 
     LC -->|"CRUD / Lifecycle APIs"| AR
     LC -->|"CRUD / Lifecycle APIs"| MR
