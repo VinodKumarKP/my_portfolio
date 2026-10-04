@@ -1,6 +1,6 @@
 ---
 title: "Generic Metadata-Driven ETL Framework"
-year: 2010
+year: 2012
 phase: "Data Engineer"
 description: "Designed a generic, metadata-driven ETL framework to standardize data pipelines and eliminate redundant bash scripting."
 ---
