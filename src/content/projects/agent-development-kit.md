@@ -1,5 +1,5 @@
 ---
-title: "Agent Development Kit (ADK) & Enterprise Registry"
+title: "Agent Development Kit (ADK)"
 year: 2026
 phase: "AI/GenAI Engineer & Architect"
 description: "Designed a universal Agent Development Kit (ADK) that standardizes LLM agent creation, testing, and discovery across LangGraph, CrewAI, and Claude."
@@ -8,7 +8,7 @@ description: "Designed a universal Agent Development Kit (ADK) that standardizes
 ## Impact
 Standardized | Multi-Framework AI (LangGraph, CrewAI, Strands)
 Automated | Agent Evaluation in CI/CD
-Centralized | Component Registries (Agents, MCP, Skills)
+Centralized | Agent Contract Standardization
 
 ## Overview
 As generative AI exploded across the enterprise, teams began building AI agents using disconnected, one-off scripts. There was no standard contract for how an agent should expose its tools, enforce guardrails, or return structured output. This wild-west approach made it nearly impossible to integrate agents into centralized platforms or share capabilities across business units.
@@ -26,19 +26,19 @@ If a team added a new guardrail or an awesome new tool to their agent, it was tr
 **Issue:** Teams couldn't easily discover tools built by others, and they had no way to formally test their agents in the CI/CD pipeline to ensure quality didn't degrade after a prompt tweak.
 
 
-**Solution:** I built the **Agent Evaluator**, a testing framework where developers define LLM regression scenarios in a `scenario.yaml` file. The evaluator automatically tests the agent's output against expected behavior and generates a CI/CD-compatible report. Finally, I built central **ADK Registries** (Agent Registry, MCP Registry, Skill Registry, KB Registry). The ADK natively hooks into these, allowing teams to instantly publish their agents and vector knowledge bases, making them discoverable and usable enterprise-wide.
+**Solution:** I built the **Agent Evaluator**, a testing framework where developers define LLM regression scenarios in a `scenario.yaml` file. The evaluator automatically tests the agent's output against expected behavior and generates a CI/CD-compatible report. Finally, the ADK standardizes agent registration through the ADK contract, allowing teams to instantly package their agents, making them discoverable and ready for deployment enterprise-wide.
 
 ### Challenge 3: Agent Configuration & Deployment at Scale
 **Issue:** Modifying an agent's tools, MCPs, or guardrails required code changes, testing, and a full software deployment cycle. Furthermore, there was no standard way to host the agents once they were built.
 
 
-**Solution:** I implemented a declarative approach where the entire agent—including its tools, MCP integrations, sub-agents, guardrails, and structured output formats—can be defined in a single `agent.yaml` file. The ADK parses this YAML and dynamically constructs the agent on the fly. This made deployments trivial, as enhancing an agent only required updating the YAML file. Furthermore, the ADK supports multiple deployment targets out-of-the-box, allowing teams to run their agents as an OS Process, a Docker Container, on Kubernetes, or via Agent-Core.
+**Solution:** I implemented a declarative approach where the entire agent—including its tools, MCP integrations, sub-agents, guardrails, and structured output formats—can be defined in a single `agent.yaml` file. The ADK parses this YAML and dynamically constructs the agent on the fly. This made deployments trivial, as enhancing an agent only required updating the YAML file.
 
 ### Architecture
 
 - **BaseAgent Contract:** The core abstract interface standardizing how agents interact with tools, guardrails, and MCPs, regardless of the underlying framework.
 - **Agent HTTP Server:** A universal router exposing unified endpoints (`/chat`, `/stream`, `/a2a`, `/agui`), making front-end integrations fully agnostic.
-- **Centralized Registries:** Enterprise hubs (Agent, MCP, Skill, KB) allowing cross-team discovery and direct ADK deployment to multiple targets (Docker, K8s).
+- **Agent Registry Integration:** Standardized publishing mechanism allowing cross-team discovery.
 - **Agent Evaluator:** A native testing framework that parses `scenario.yaml` to run LLM regression tests automatically inside CI/CD pipelines.
 
 ```mermaid
@@ -52,23 +52,8 @@ graph TD
         
     end
     
-    subgraph Centralized Registries
+    subgraph Agent Registration
         F[Agent Registry]
-        G[MCP Registry]
-        H[Skill Registry]
-        I[KB / Vector Registry]
-
-        F --> DeploymentTargets
-        G --> DeploymentTargets
-        H --> DeploymentTargets
-        I --> DeploymentTargets
-
-        subgraph DeploymentTargets [Deployment Targets]
-            OS[OS Process]
-            Docker[Docker Container]
-            K8s[Kubernetes]
-            Core[Agent-Core]
-        end
     end
     
     subgraph Agent Evaluator & CI/CD
@@ -78,9 +63,6 @@ graph TD
     end
     
     E -->|Publish & Discover| F
-    E -->|Publish & Discover| G
-    E -->|Publish & Discover| H
-    E -->|Publish & Discover| I
     
     classDef abstract fill:#8a2be2,stroke:#fff,stroke-width:2px,color:#fff;
     classDef server fill:#0066cc,stroke:#fff,stroke-width:2px,color:#fff;
@@ -89,7 +71,7 @@ graph TD
     
     class A abstract;
     class E server;
-    class F,G,H,I registry;
+    class F registry;
     class J,K,L test;
 ```
 
@@ -180,6 +162,6 @@ guardrails:
 
 ## Business Outcomes
 - **Universal Interoperability:** Front-end platforms can now consume any agent—whether it's built on LangGraph or CrewAI—using a single, unified protocol.
-- **Enterprise Reusability:** The Skill and MCP registries prevented massive duplication of effort; a tool built by the data team can now be instantly utilized by an agent built by the DevOps team.
+- **Enterprise Reusability:** The ADK contract prevented massive duplication of effort; a tool built by the data team can now be seamlessly integrated into an agent built by the DevOps team.
 - **Infrastructure as Data:** By defining agents entirely in `agent.yaml`, teams can update prompts, swap out models, or add new MCP tools without writing a single line of Python, accelerating time-to-market.
 - **Reliable AI Deployments:** The Agent Evaluator enabled strict regression testing in the pipeline, ensuring that prompt adjustments or model upgrades did not break expected business logic.
